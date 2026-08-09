@@ -11,75 +11,96 @@ type Phase = 'idle' | 'opening' | 'done'
 const EASE = [0.22, 1, 0.36, 1] as const
 
 const PAPER_GRAIN =
-  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E\")"
+  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E\")"
 
-/* ---------------------------------------------------------------- botanicals */
-
-function Sprig() {
-  return (
-    <g fill="none" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round">
-      <path d="M0 34 C 2 22, -2 12, 0 0" />
-      {[0, 1, 2].map((i) => {
-        const y = 26 - i * 8
-        const s = 1 - i * 0.18
-        return (
-          <g key={i}>
-            <path d={`M0 ${y} C ${-7 * s} ${y - 2}, ${-10 * s} ${y - 7}, ${-4 * s} ${y - 9}
-                      C ${-1 * s} ${y - 7}, ${-1 * s} ${y - 3}, 0 ${y}`} />
-            <path d={`M0 ${y - 4} C ${7 * s} ${y - 6}, ${10 * s} ${y - 11}, ${4 * s} ${y - 13}
-                      C ${1 * s} ${y - 11}, ${1 * s} ${y - 7}, 0 ${y - 4}`} />
-          </g>
-        )
-      })}
-      <g transform="translate(0,-3)">
-        {Array.from({ length: 5 }).map((_, i) => (
-          <ellipse key={i} cx="0" cy="-3.6" rx="2.1" ry="3.6" transform={`rotate(${i * 72})`} />
-        ))}
-        <circle cx="0" cy="0" r="1.1" />
-      </g>
-    </g>
-  )
-}
-
-function EmbossBotanicals() {
-  const placements = [
-    { x: 74, y: 92, r: -18, s: 1.1 },
-    { x: 226, y: 52, r: 12, s: 0.82 },
-    { x: 386, y: 98, r: 24, s: 1.0 },
-    { x: 512, y: 62, r: -10, s: 0.78 },
-    { x: 128, y: 232, r: 8, s: 0.88 },
-    { x: 336, y: 250, r: -14, s: 1.05 },
-    { x: 500, y: 236, r: 18, s: 0.85 },
-    { x: 240, y: 344, r: 4, s: 0.92 },
-    { x: 52, y: 340, r: 32, s: 0.72 },
-    { x: 428, y: 352, r: -28, s: 0.78 },
-  ]
-
+/* Photorealistic White Rose Bouquet with lush leaves & baby's breath */
+function FloralCluster({ position }: { position: 'top-left' | 'bottom-right' }) {
+  const isTopLeft = position === 'top-left'
   return (
     <svg
-      viewBox="0 0 580 400"
-      preserveAspectRatio="xMidYMid slice"
+      viewBox="0 0 160 160"
+      width="120"
+      height="120"
       style={{
         position: 'absolute',
-        inset: 0,
-        width: '100%',
-        height: '100%',
-        color: 'rgba(255,255,255,0.18)',
-        filter: 'drop-shadow(0 1px 0 rgba(0,0,0,0.3))',
+        ...(isTopLeft
+          ? { top: '-30px', left: '-30px', transform: 'rotate(-10deg)' }
+          : { bottom: '-30px', right: '-30px', transform: 'rotate(170deg)' }),
+        zIndex: 12,
         pointerEvents: 'none',
+        filter: 'drop-shadow(0 6px 14px rgba(15,25,16,0.35))',
       }}
       aria-hidden
     >
-      {placements.map((p, i) => (
-        <g key={i} transform={`translate(${p.x},${p.y}) rotate(${p.r}) scale(${p.s})`}>
-          <Sprig />
-        </g>
-      ))}
-      <g fill="none" stroke="currentColor" strokeWidth="0.9" strokeLinecap="round" opacity="0.75">
-        <path d="M8 168 C 68 148, 110 188, 172 164" />
-        <path d="M312 214 C 372 194, 414 234, 476 210" />
-        <path d="M196 394 C 228 368, 288 368, 320 394" />
-        <path d="M436 128 C 478 112, 520 140, 566 122" />
+      <defs>
+        <radialGradient id="roseSoft" cx="35%" cy="30%" r="75%">
+          <stop offset="0%" stopColor="#FFFFFF" />
+          <stop offset="55%" stopColor="#F9F6EE" />
+          <stop offset="85%" stopColor="#EDE6D5" />
+          <stop offset="100%" stopColor="#DCD2C0" />
+        </radialGradient>
+        <radialGradient id="roseInnerWarmth" cx="42%" cy="38%" r="55%">
+          <stop offset="0%" stopColor="#FFF7DF" />
+          <stop offset="60%" stopColor="#F2E1B6" />
+          <stop offset="100%" stopColor="#DFCC9C" />
+        </radialGradient>
+        <linearGradient id="leafGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#6C826E" />
+          <stop offset="50%" stopColor="#4F6451" />
+          <stop offset="100%" stopColor="#364738" />
+        </linearGradient>
+        <linearGradient id="leafGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#5A6F5C" />
+          <stop offset="50%" stopColor="#425444" />
+          <stop offset="100%" stopColor="#2A382C" />
+        </linearGradient>
+        <filter id="petalShadow" x="-20%" y="-20%" width="140%" height="140%">
+          <feDropShadow dx="0" dy="1.5" stdDeviation="1.5" floodColor="#202A21" floodOpacity="0.25" />
+        </filter>
+      </defs>
+
+      {/* Leaves Base */}
+      <g stroke="#263428" strokeWidth="0.6">
+        <path d="M 68 80 C 42 32, 22 45, 8 22 C 32 32, 48 50, 68 80 Z" fill="url(#leafGrad1)" />
+        <path d="M 80 68 C 45 22, 58 10, 32 0 C 50 22, 62 45, 80 68 Z" fill="url(#leafGrad2)" />
+        <path d="M 80 80 C 115 32, 138 45, 148 22 C 122 32, 105 50, 80 80 Z" fill="url(#leafGrad1)" />
+        <path d="M 85 92 C 122 122, 135 100, 155 110 C 125 105, 102 95, 85 92 Z" fill="url(#leafGrad2)" />
+      </g>
+
+      {/* Baby's Breath Blossoms */}
+      <g fill="#FFFFFF" stroke="#D3C8B4" strokeWidth="0.5" filter="url(#petalShadow)">
+        <circle cx="24" cy="38" r="3.8" />
+        <circle cx="34" cy="24" r="3" />
+        <circle cx="16" cy="50" r="3.2" />
+        <circle cx="128" cy="38" r="3.8" />
+        <circle cx="116" cy="24" r="3" />
+        <circle cx="136" cy="52" r="3.2" />
+      </g>
+
+      {/* Main White Rose */}
+      <g transform="translate(54, 54)" filter="url(#petalShadow)">
+        <circle cx="22" cy="22" r="26" fill="url(#roseSoft)" />
+        <path d="M -2 22 C -2 8, 12 -2, 26 -2 C 34 8, 30 26, 14 26 C 2 26, -2 22, -2 22 Z" fill="#F4EFE2" opacity="0.9" />
+        <path d="M 22 -2 C 36 -2, 46 12, 46 26 C 36 34, 18 30, 18 14 C 18 2, 22 -2, 22 -2 Z" fill="#EDE6D5" opacity="0.85" />
+        <path d="M 46 22 C 46 36, 32 46, 18 46 C 10 36, 14 18, 30 18 C 42 18, 46 22, 46 22 Z" fill="#F6F1E6" opacity="0.95" />
+
+        <path
+          d="M 12 14 C 18 6, 30 6, 34 16 C 30 24, 18 26, 12 14 Z"
+          fill="url(#roseInnerWarmth)"
+          stroke="#DACCA7"
+          strokeWidth="0.6"
+        />
+        <circle cx="22" cy="20" r="5.5" fill="#E8D8A6" opacity="0.95" />
+      </g>
+
+      {/* Side Roses */}
+      <g transform="translate(24, 68) scale(0.72)" filter="url(#petalShadow)">
+        <circle cx="22" cy="22" r="24" fill="url(#roseSoft)" />
+        <circle cx="20" cy="18" r="7" fill="#E8D8A6" opacity="0.9" />
+      </g>
+      <g transform="translate(82, 30) scale(0.65)" filter="url(#petalShadow)">
+        <circle cx="22" cy="22" r="24" fill="url(#roseSoft)" />
+        <circle cx="20" cy="18" r="7" fill="#E8D8A6" opacity="0.9" />
       </g>
     </svg>
   )
@@ -192,7 +213,7 @@ export default function Envelope({ onOpen }: EnvelopeProps) {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        gap: 36,
+        gap: 28,
         background: 'radial-gradient(ellipse at 50% 42%, #FAF8F5 0%, #EBE7DC 62%, #D6CFBE 100%)',
         overflow: 'hidden',
         perspective: 1500,
@@ -202,6 +223,42 @@ export default function Envelope({ onOpen }: EnvelopeProps) {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.6 }}
     >
+      {/* Top Header Text */}
+      <motion.div
+        className="text-center px-4"
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+      >
+        <p
+          style={{
+            fontFamily: 'Marcellus, serif',
+            fontSize: 'clamp(10px, 2.8vw, 12px)',
+            letterSpacing: '0.38em',
+            textTransform: 'uppercase',
+            color: '#3A4B3C',
+            marginBottom: 4,
+            fontWeight: 500,
+            textShadow: '0 1px 0 rgba(255,255,255,0.8)',
+          }}
+        >
+          Together with their families
+        </p>
+        <h1
+          style={{
+            fontFamily: '"Pinyon Script", cursive',
+            fontSize: 'clamp(34px, 8.8vw, 54px)',
+            color: '#3A4B3C',
+            lineHeight: 1.1,
+            margin: 0,
+            filter: 'drop-shadow(0 1px 1px rgba(255,255,255,0.9))',
+          }}
+        >
+          Amal &amp; Surya
+        </h1>
+      </motion.div>
+
+      {/* Main 3D Olive Envelope Container */}
       <motion.div
         role="button"
         tabIndex={phase === 'idle' ? 0 : -1}
@@ -215,7 +272,7 @@ export default function Envelope({ onOpen }: EnvelopeProps) {
         }}
         style={{
           position: 'relative',
-          width: 'min(450px, 88vw)',
+          width: 'min(420px, 86vw)',
           aspectRatio: '1.45 / 1',
           transformStyle: 'preserve-3d',
           cursor: phase === 'idle' ? 'pointer' : 'default',
@@ -229,6 +286,10 @@ export default function Envelope({ onOpen }: EnvelopeProps) {
         }
         transition={{ duration: reduced ? 0.2 : 0.7, ease: EASE }}
       >
+        {/* White Rose Bouquets */}
+        <FloralCluster position="top-left" />
+        <FloralCluster position="bottom-right" />
+
         {/* Envelope body (Solid Rich Olive Green with Paper Grain) */}
         <div
           style={{
@@ -352,9 +413,7 @@ export default function Envelope({ onOpen }: EnvelopeProps) {
             animate={{ rotateX: open && f.opens ? -180 : 0 }}
             transition={{ duration: reduced ? 0.2 : 0.8, delay: reduced ? 0 : 0.14, ease: EASE }}
             aria-hidden
-          >
-            <EmbossBotanicals />
-          </motion.div>
+          />
         ))}
 
         {/* Wax seal at the fold centre */}
@@ -397,7 +456,7 @@ export default function Envelope({ onOpen }: EnvelopeProps) {
             : { duration: 0.3 }
         }
       >
-        Tap to open
+        CLICK TO OPEN...
       </motion.p>
     </motion.div>
   )
