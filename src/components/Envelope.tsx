@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
-import { primaryEvent } from '../lib/invite'
+import { primaryEvent, inviteKind } from '../lib/invite'
 
 interface EnvelopeProps {
   onOpen: () => void
@@ -8,7 +8,7 @@ interface EnvelopeProps {
 
 type Phase = 'idle' | 'opening' | 'done'
 
-const EASE = [0.22, 1, 0.36, 1] as const
+const EASE_PAPER = [0.16, 1, 0.3, 1] as const
 
 const PAPER_GRAIN =
   "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='250'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='250' height='250' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E\")"
@@ -108,45 +108,11 @@ function FloralCluster({ position }: { position: 'top-left' | 'bottom-right' }) 
 
 const MEET = '46%'
 
-/* Olive Green Flap Configurations matching phone screenshot */
-const FLAPS = [
-  {
-    key: 'left',
-    clip: `polygon(0 0, 0 100%, 50% ${MEET})`,
-    origin: 'left center',
-    opens: false,
-    grad: 'linear-gradient(135deg, #5C6E52 0%, #46573C 45%, #34442A 100%)',
-    edgeLine: 'M 0 0 L 50 46 L 0 100',
-  },
-  {
-    key: 'right',
-    clip: `polygon(100% 0, 100% 100%, 50% ${MEET})`,
-    origin: 'right center',
-    opens: false,
-    grad: 'linear-gradient(225deg, #647759 0%, #4D5F43 45%, #36472C 100%)',
-    edgeLine: 'M 100 0 L 50 46 L 100 100',
-  },
-  {
-    key: 'bottom',
-    clip: `polygon(0 100%, 100% 100%, 50% ${MEET})`,
-    origin: 'center bottom',
-    opens: false,
-    grad: 'linear-gradient(0deg, #627557 0%, #495B40 50%, #304027 100%)',
-    edgeLine: 'M 0 100 L 50 46 L 100 100',
-  },
-  {
-    key: 'top',
-    clip: `polygon(0 0, 100% 0, 50% ${MEET})`,
-    origin: 'center top',
-    opens: true,
-    grad: 'linear-gradient(180deg, #748866 0%, #566849 35%, #3C4D32 80%, #293820 100%)',
-    edgeLine: 'M 0 0 L 50 46 L 100 0',
-  },
-] as const
-
 export default function Envelope({ onOpen }: EnvelopeProps) {
   const [phase, setPhase] = useState<Phase>('idle')
+  const [topFlapOpen, setTopFlapOpen] = useState(false)
   const [flapsBehind, setFlapsBehind] = useState(false)
+  const [cardSlideUp, setCardSlideUp] = useState(false)
   const reduced = useReducedMotion() ?? false
   const timers = useRef<ReturnType<typeof setTimeout>[]>([])
 
@@ -162,18 +128,32 @@ export default function Envelope({ onOpen }: EnvelopeProps) {
     setPhase('opening')
 
     if (reduced) {
+      setTopFlapOpen(true)
       setFlapsBehind(true)
-      at(220, () => setPhase('done'))
-      at(440, onOpen)
+      setCardSlideUp(true)
+      at(300, () => setPhase('done'))
+      at(500, onOpen)
       return
     }
 
-    at(620, () => setFlapsBehind(true))
-    at(1700, () => setPhase('done'))
-    at(2000, onOpen)
+    // Phase 1 (0ms - 300ms): Wax seal dissolves
+    // Phase 2 (300ms): Top Flap begins flipping open
+    at(300, () => setTopFlapOpen(true))
+
+    // Phase 3 (750ms): Top flap passes 90 degrees -> move behind card
+    at(750, () => setFlapsBehind(true))
+
+    // Phase 4 (900ms): Card slides UP out of envelope pocket
+    at(900, () => setCardSlideUp(true))
+
+    // Phase 5 (2100ms): Finish & Transition to Main Page
+    at(2100, () => setPhase('done'))
+    at(2400, onOpen)
   }, [phase, reduced, onOpen])
 
-  const open = phase === 'opening' || phase === 'done'
+  const isReception = inviteKind === 'reception'
+  const eventTitle = isReception ? 'Wedding Reception' : 'Wedding Ceremony'
+  const dateText = primaryEvent.dateDisplay // '06 . 09 . 2026' for reception, '30 . 08 . 2026' for wedding
 
   return (
     <motion.div
@@ -197,7 +177,7 @@ export default function Envelope({ onOpen }: EnvelopeProps) {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.6 }}
     >
-      {/* Top Header Text matching phone screenshot */}
+      {/* Top Header Text */}
       <motion.div
         className="text-center"
         initial={{ opacity: 0, y: -10 }}
@@ -232,7 +212,7 @@ export default function Envelope({ onOpen }: EnvelopeProps) {
         </h1>
       </motion.div>
 
-      {/* Main 3D Olive Envelope Physical Structure */}
+      {/* Main 3D Olive Envelope Container */}
       <motion.div
         role="button"
         tabIndex={phase === 'idle' ? 0 : -1}
@@ -257,9 +237,9 @@ export default function Envelope({ onOpen }: EnvelopeProps) {
             ? { opacity: 0, y: -22, scale: 1.02 }
             : { opacity: 1, y: 0, scale: 1 }
         }
-        transition={{ duration: reduced ? 0.2 : 0.7, ease: EASE }}
+        transition={{ duration: reduced ? 0.2 : 0.7, ease: EASE_PAPER }}
       >
-        {/* Contact Shadow beneath envelope */}
+        {/* Ground Contact Shadow */}
         <div
           style={{
             position: 'absolute',
@@ -275,11 +255,11 @@ export default function Envelope({ onOpen }: EnvelopeProps) {
           aria-hidden
         />
 
-        {/* White Rose Bouquets at Top-Left & Bottom-Right Corners */}
+        {/* White Rose Bouquets */}
         <FloralCluster position="top-left" />
         <FloralCluster position="bottom-right" />
 
-        {/* LAYER 1: Envelope Interior Back Wall */}
+        {/* LAYER 1: Envelope Interior Pocket Back Wall */}
         <div
           style={{
             position: 'absolute',
@@ -295,7 +275,7 @@ export default function Envelope({ onOpen }: EnvelopeProps) {
           aria-hidden
         />
 
-        {/* LAYER 2: Inner Card (Starts INSIDE the envelope pocket, slides UP when opened) */}
+        {/* LAYER 2: Inner Invitation Card */}
         <motion.div
           style={{
             position: 'absolute',
@@ -309,7 +289,7 @@ export default function Envelope({ onOpen }: EnvelopeProps) {
             backgroundBlendMode: 'multiply, normal',
             border: '1px solid rgba(212,175,55,0.45)',
             borderRadius: 4,
-            boxShadow: '0 10px 24px -10px rgba(20,30,21,0.45)',
+            boxShadow: '0 12px 28px -8px rgba(20,30,21,0.5)',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -318,9 +298,12 @@ export default function Envelope({ onOpen }: EnvelopeProps) {
             padding: 'clamp(14px, 4vw, 24px)',
             textAlign: 'center',
           }}
-          initial={{ y: 0 }}
-          animate={{ y: open ? '-78%' : 0 }}
-          transition={{ duration: reduced ? 0.2 : 0.85, delay: reduced ? 0 : 0.62, ease: EASE }}
+          initial={{ y: 0, scale: 0.98 }}
+          animate={{
+            y: cardSlideUp ? '-80%' : 0,
+            scale: cardSlideUp ? 1.02 : 0.98,
+          }}
+          transition={{ duration: reduced ? 0.2 : 0.9, ease: EASE_PAPER }}
           aria-hidden
         >
           <div
@@ -343,7 +326,7 @@ export default function Envelope({ onOpen }: EnvelopeProps) {
               margin: 0,
             }}
           >
-            You are warmly invited
+            Inviting you to our
           </p>
 
           <p
@@ -359,61 +342,109 @@ export default function Envelope({ onOpen }: EnvelopeProps) {
             Amal &amp; Surya
           </p>
 
+          <p
+            style={{
+              fontFamily: 'Marcellus, serif',
+              fontSize: 'clamp(9px, 2.4vw, 11px)',
+              letterSpacing: '0.25em',
+              textTransform: 'uppercase',
+              color: 'var(--ink-soft)',
+              margin: 0,
+            }}
+          >
+            {eventTitle}
+          </p>
+
           <div style={{ width: 50, height: 1, background: 'linear-gradient(90deg, transparent, #D4AF37, transparent)' }} />
 
           <p
             style={{
               fontFamily: 'Marcellus, serif',
-              fontSize: 'clamp(9px, 2.4vw, 11px)',
+              fontSize: 'clamp(10px, 2.6vw, 12px)',
               letterSpacing: '0.3em',
               textTransform: 'uppercase',
               color: 'var(--olive)',
+              fontWeight: 600,
               margin: 0,
             }}
           >
-            {primaryEvent.dateDisplay}
+            {dateText}
           </p>
         </motion.div>
 
-        {/* LAYER 3: Triangular Front Envelope Flaps (Covers the card when closed!) */}
-        {FLAPS.map((f) => (
-          <motion.div
-            key={f.key}
+        {/* LAYER 3: Bottom, Left, Right Front Flaps */}
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            zIndex: 5,
+            clipPath: `polygon(0 0, 0 100%, 100% 100%, 100% 0, 50% ${MEET})`,
+            pointerEvents: 'none',
+          }}
+        >
+          {/* Left Flap */}
+          <div
             style={{
-              position: 'absolute',
-              inset: 0,
-              zIndex: f.opens && flapsBehind ? 0 : 5,
-              clipPath: f.clip,
-              transformOrigin: f.origin,
-              background: f.grad,
-              backgroundImage: `${PAPER_GRAIN}, ${f.grad}`,
+              position: 'absolute', inset: 0,
+              clipPath: `polygon(0 0, 0 100%, 50% ${MEET})`,
+              background: 'linear-gradient(135deg, #5C6E52 0%, #46573C 45%, #34442A 100%)',
+              backgroundImage: `${PAPER_GRAIN}, linear-gradient(135deg, #5C6E52 0%, #46573C 45%, #34442A 100%)`,
               backgroundBlendMode: 'multiply, normal',
-              filter: f.key === 'top' ? 'drop-shadow(0 10px 18px rgba(12,20,13,0.5))' : undefined,
             }}
-            animate={{ rotateX: open && f.opens ? -180 : 0 }}
-            transition={{ duration: reduced ? 0.2 : 0.8, delay: reduced ? 0 : 0.14, ease: EASE }}
-            aria-hidden
-          >
-            {/* Flap Edge 3D Crease Shadows & Specular Lines */}
-            <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="absolute inset-0 w-full h-full pointer-events-none">
-              <path
-                d={f.edgeLine}
-                fill="none"
-                stroke="rgba(10,18,11,0.4)"
-                strokeWidth="0.9"
-              />
-              <path
-                d={f.edgeLine}
-                fill="none"
-                stroke="rgba(255,255,255,0.22)"
-                strokeWidth="0.5"
-                transform="translate(0, -0.4)"
-              />
-            </svg>
-          </motion.div>
-        ))}
+          />
+          {/* Right Flap */}
+          <div
+            style={{
+              position: 'absolute', inset: 0,
+              clipPath: `polygon(100% 0, 100% 100%, 50% ${MEET})`,
+              background: 'linear-gradient(225deg, #647759 0%, #4D5F43 45%, #36472C 100%)',
+              backgroundImage: `${PAPER_GRAIN}, linear-gradient(225deg, #647759 0%, #4D5F43 45%, #36472C 100%)`,
+              backgroundBlendMode: 'multiply, normal',
+            }}
+          />
+          {/* Bottom Flap */}
+          <div
+            style={{
+              position: 'absolute', inset: 0,
+              clipPath: `polygon(0 100%, 100% 100%, 50% ${MEET})`,
+              background: 'linear-gradient(0deg, #627557 0%, #495B40 50%, #304027 100%)',
+              backgroundImage: `${PAPER_GRAIN}, linear-gradient(0deg, #627557 0%, #495B40 50%, #304027 100%)`,
+              backgroundBlendMode: 'multiply, normal',
+            }}
+          />
 
-        {/* LAYER 4: Photorealistic 3D Metallic Gold Wax Seal (Transparent Background, No Box!) */}
+          {/* Crease Shadow Lines */}
+          <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="absolute inset-0 w-full h-full">
+            <path d="M 0 0 L 50 46 L 0 100 M 100 0 L 50 46 L 100 100 M 0 100 L 50 46 L 100 100" fill="none" stroke="rgba(10,18,11,0.35)" strokeWidth="0.8" />
+            <path d="M 0 1 L 50 47 L 0 100 M 100 1 L 50 47 L 100 100 M 0 100 L 50 47 L 100 100" fill="none" stroke="rgba(255,255,255,0.18)" strokeWidth="0.5" />
+          </svg>
+        </div>
+
+        {/* LAYER 4: Top Flap (Flips Open 180deg) */}
+        <motion.div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            zIndex: topFlapOpen && flapsBehind ? 0 : 6,
+            clipPath: `polygon(0 0, 100% 0, 50% ${MEET})`,
+            transformOrigin: 'center top',
+            background: 'linear-gradient(180deg, #748866 0%, #566849 35%, #3C4D32 80%, #293820 100%)',
+            backgroundImage: `${PAPER_GRAIN}, linear-gradient(180deg, #748866 0%, #566849 35%, #3C4D32 80%, #293820 100%)`,
+            backgroundBlendMode: 'multiply, normal',
+            filter: 'drop-shadow(0 8px 16px rgba(12,20,13,0.45))',
+          }}
+          initial={{ rotateX: 0 }}
+          animate={{ rotateX: topFlapOpen ? -180 : 0 }}
+          transition={{ duration: reduced ? 0.2 : 0.85, ease: EASE_PAPER }}
+          aria-hidden
+        >
+          <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="absolute inset-0 w-full h-full">
+            <path d="M 0 0 L 50 46 L 100 0" fill="none" stroke="rgba(10,18,11,0.4)" strokeWidth="0.9" />
+            <path d="M 0 1 L 50 47 L 100 1" fill="none" stroke="rgba(255,255,255,0.22)" strokeWidth="0.5" />
+          </svg>
+        </motion.div>
+
+        {/* LAYER 5: Photorealistic Transparent Gold Wax Seal Stamp */}
         <motion.div
           style={{
             position: 'absolute',
@@ -421,12 +452,17 @@ export default function Envelope({ onOpen }: EnvelopeProps) {
             top: MEET,
             width: 'clamp(58px, 16vw, 78px)',
             height: 'clamp(58px, 16vw, 78px)',
-            zIndex: 10,
+            zIndex: 15,
             pointerEvents: 'none',
           }}
           initial={{ x: '-50%', y: '-50%', opacity: 1, scale: 1 }}
-          animate={{ x: '-50%', y: '-50%', opacity: open ? 0 : 1, scale: open ? 0.78 : 1 }}
-          transition={{ duration: reduced ? 0.15 : 0.34, ease: 'easeOut' }}
+          animate={{
+            x: '-50%',
+            y: '-50%',
+            opacity: topFlapOpen ? 0 : 1,
+            scale: topFlapOpen ? 0.75 : 1,
+          }}
+          transition={{ duration: reduced ? 0.15 : 0.32, ease: 'easeOut' }}
           aria-hidden
         >
           <img
@@ -442,7 +478,7 @@ export default function Envelope({ onOpen }: EnvelopeProps) {
         </motion.div>
       </motion.div>
 
-      {/* Bottom Text matching phone screenshot: "CLICK TO OPEN..." */}
+      {/* Bottom Call to Action Text: "CLICK TO OPEN..." */}
       <motion.p
         style={{
           fontFamily: 'Marcellus, serif',
