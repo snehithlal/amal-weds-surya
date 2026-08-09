@@ -6,7 +6,6 @@ const LINKS = [
   { href: '#story', label: 'Our Story' },
   { href: '#details', label: 'Events' },
   { href: '#gallery', label: 'Gallery' },
-  { href: '#rsvp', label: 'RSVP' },
 ]
 
 export default function TopNav() {

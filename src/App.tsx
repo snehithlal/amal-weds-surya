@@ -7,13 +7,11 @@ import CoupleSection from './components/CoupleSection'
 import StoryTimeline from './components/StoryTimeline'
 import EventCard from './components/EventCard'
 import Gallery from './components/Gallery'
-import Rsvp from './components/Rsvp'
 import Footer from './components/Footer'
 import BotanicalDivider from './components/BotanicalDivider'
 import AmbientScene from './components/AmbientScene'
 import CursorTrail from './components/CursorTrail'
 import TopNav from './components/TopNav'
-import MusicPlayer from './components/MusicPlayer'
 import { ScrollProgressTrack, ScrollIndicator, MapFAB } from './components/ScrollProgress'
 import { weddingEvent, receptionEvent } from './lib/calendar'
 import { primaryEvent, showWedding, showReception } from './lib/invite'
@@ -45,7 +43,6 @@ export default function App() {
     <>
       <AmbientScene active={opened} />
       <CursorTrail />
-      <MusicPlayer />
 
       <AnimatePresence>
         {!opened && <Envelope onOpen={handleOpen} />}
@@ -136,7 +133,6 @@ export default function App() {
               </section>
 
               <Gallery />
-              <Rsvp />
               <Footer />
 
               <ScrollProgressTrack />
