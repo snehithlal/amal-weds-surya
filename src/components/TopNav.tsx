@@ -3,7 +3,8 @@ import { AnimatePresence, motion } from 'framer-motion'
 
 const LINKS = [
   { href: '#couple', label: 'Couple' },
-  { href: '#details', label: 'Details' },
+  { href: '#story', label: 'Our Story' },
+  { href: '#details', label: 'Events' },
   { href: '#gallery', label: 'Gallery' },
   { href: '#rsvp', label: 'RSVP' },
 ]
@@ -50,13 +51,13 @@ export default function TopNav() {
             >
               A &amp; S
             </a>
-            <ul className="flex items-center gap-5 sm:gap-7">
+            <ul className="flex items-center gap-4 sm:gap-6">
               {LINKS.map((l) => (
                 <li key={l.href}>
                   <a
                     href={l.href}
                     className="font-heading uppercase text-olive transition-colors duration-300 hover:text-gold-deep"
-                    style={{ fontSize: 11, letterSpacing: '0.18em' }}
+                    style={{ fontSize: 11, letterSpacing: '0.15em' }}
                   >
                     {l.label}
                   </a>

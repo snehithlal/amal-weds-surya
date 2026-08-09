@@ -4,6 +4,7 @@ import Envelope from './components/Envelope'
 import Hero from './components/Hero'
 import Countdown from './components/Countdown'
 import CoupleSection from './components/CoupleSection'
+import StoryTimeline from './components/StoryTimeline'
 import EventCard from './components/EventCard'
 import Gallery from './components/Gallery'
 import Rsvp from './components/Rsvp'
@@ -12,6 +13,7 @@ import BotanicalDivider from './components/BotanicalDivider'
 import AmbientScene from './components/AmbientScene'
 import CursorTrail from './components/CursorTrail'
 import TopNav from './components/TopNav'
+import MusicPlayer from './components/MusicPlayer'
 import { ScrollProgressTrack, ScrollIndicator, MapFAB } from './components/ScrollProgress'
 import { weddingEvent, receptionEvent } from './lib/calendar'
 import { primaryEvent, showWedding, showReception } from './lib/invite'
@@ -43,6 +45,7 @@ export default function App() {
     <>
       <AmbientScene active={opened} />
       <CursorTrail />
+      <MusicPlayer />
 
       <AnimatePresence>
         {!opened && <Envelope onOpen={handleOpen} />}
@@ -85,6 +88,7 @@ export default function App() {
               <Countdown />
               <BotanicalDivider />
               <CoupleSection />
+              <StoryTimeline />
 
               <section id="details" aria-label="Wedding details" className="py-24 px-6">
                 <motion.div
