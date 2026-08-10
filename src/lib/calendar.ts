@@ -49,7 +49,7 @@ export function downloadICS(event: CalendarEvent): void {
   const ics = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
-    'PRODID:-//Amal & Aishwarya Wedding//EN',
+    'PRODID:-//Amal & Aiswarya Wedding//EN',
     'CALSCALE:GREGORIAN',
     'METHOD:PUBLISH',
     'BEGIN:VEVENT',
@@ -73,25 +73,25 @@ export function downloadICS(event: CalendarEvent): void {
 }
 
 export const weddingCeremonyEvent: CalendarEvent = {
-  title: 'Amal & Aishwarya — Thalikettu Wedding Ceremony',
+  title: 'Amal & Aiswarya — Thalikettu Wedding Ceremony',
   startIST: '20260830T080000',
   endIST: '20260830T093000',
   location: 'Guruvayur Sree Krishna Temple, Guruvayur, Thrissur',
-  description: 'Join us for the auspicious Thalikettu wedding ceremony of Amal & Aishwarya.',
+  description: 'Join us for the auspicious Thalikettu wedding ceremony of Amal & Aiswarya.',
 }
 
 export const weddingFeastEvent: CalendarEvent = {
-  title: 'Amal & Aishwarya — Wedding Feast & Celebration',
+  title: 'Amal & Aiswarya — Wedding Feast & Celebration',
   startIST: '20260830T110000',
   endIST: '20260830T140000',
   location: 'Nandanam Regency, Karuvanthala, Guruvayur',
-  description: 'Join us for the wedding feast and celebration of Amal & Aishwarya.',
+  description: 'Join us for the wedding feast and celebration of Amal & Aiswarya.',
 }
 
 export const receptionEvent: CalendarEvent = {
-  title: 'Amal & Aishwarya — Wedding Reception',
+  title: 'Amal & Aiswarya — Wedding Reception',
   startIST: '20260906T160000',
   endIST: '20260906T210000',
   location: 'ALMA Convention Center, Nambikolly, Wayanad',
-  description: 'Join us for the grand evening wedding reception of Amal & Aishwarya.',
+  description: 'Join us for the grand evening wedding reception of Amal & Aiswarya.',
 }

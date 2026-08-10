@@ -80,7 +80,7 @@ export const isWedding = inviteKind === 'wedding'
 
 export const primaryEvent: EventInfo = isReception ? WEDDING_RECEPTION : WEDDING_CEREMONY
 
-export const coupleNames = 'Amal & Aishwarya'
+export const coupleNames = 'Amal & Aiswarya'
 export const monogramText = 'A & A'
 
 export const coupleData = {
@@ -92,8 +92,8 @@ export const coupleData = {
     home: 'Edakkattupparambil House, Cheeral, Sultan Bathery, Wayanad',
   },
   bride: {
-    name: 'Aishwarya',
-    nameDisplay: 'Aishwarya',
+    name: 'Aiswarya',
+    nameDisplay: 'Aiswarya',
     role: 'The Bride',
     parents: 'Daughter of Mr. Jayan M.C. & Mrs. Sindhu Jayan',
     home: 'Marakkath House, Kannoth, Vengidang, Thrissur',
