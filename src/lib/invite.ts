@@ -96,6 +96,6 @@ export const coupleData = {
     nameDisplay: 'Aiswarya',
     role: 'The Bride',
     parents: 'Daughter of Mr. Jayan M.C. & Mrs. Sindhu Jayan',
-    home: 'Marakkath House, Kannoth, Vengidang, Thrissur',
+    home: 'Marakkath House, Kannoth, Venkitangu, Thrissur',
   },
 }
