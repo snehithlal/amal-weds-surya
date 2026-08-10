@@ -1,6 +1,7 @@
 import { useRef } from 'react'
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion'
 import { groomPhoto, bridePhoto } from '../lib/images'
+import { coupleData } from '../lib/invite'
 import BotanicalDivider from './BotanicalDivider'
 
 const W = 220
@@ -15,8 +16,8 @@ interface PersonCardProps {
   name: string
   nameDisplay: string
   role: string
-  parents?: string
-  home?: string
+  parents: string
+  home: string
   contact?: string
   delay?: number
 }
@@ -27,17 +28,17 @@ function ArchCrownFlourish() {
     <>
       <path
         d={`M${cx - 2},5 C${cx - 14},-2 ${cx - 26},2 ${cx - 22},10 C${cx - 16},6 ${cx - 8},5 ${cx - 2},5`}
-        stroke="#B89228" strokeWidth="0.95" fill="none" strokeLinecap="round"
+        stroke="#A8842F" strokeWidth="0.95" fill="none" strokeLinecap="round"
       />
       <path
         d={`M${cx + 2},5 C${cx + 14},-2 ${cx + 26},2 ${cx + 22},10 C${cx + 16},6 ${cx + 8},5 ${cx + 2},5`}
-        stroke="#B89228" strokeWidth="0.95" fill="none" strokeLinecap="round"
+        stroke="#A8842F" strokeWidth="0.95" fill="none" strokeLinecap="round"
       />
-      <circle cx={cx} cy="5" r="2.4" fill="#D4AF37" />
-      <circle cx={cx} cy="5" r="4.5" fill="none" stroke="#B89228" strokeWidth="0.6" opacity="0.55" />
-      <ellipse cx={cx - 14} cy="3" rx="3.5" ry="2" fill="#6B7F6D" stroke="#B89228" strokeWidth="0.5"
+      <circle cx={cx} cy="5" r="2.4" fill="#C9A24B" />
+      <circle cx={cx} cy="5" r="4.5" fill="none" stroke="#A8842F" strokeWidth="0.6" opacity="0.55" />
+      <ellipse cx={cx - 14} cy="3" rx="3.5" ry="2" fill="#A8B5A0" stroke="#A8842F" strokeWidth="0.5"
         transform={`rotate(-22,${cx - 14},3)`} opacity="0.65" />
-      <ellipse cx={cx + 14} cy="3" rx="3.5" ry="2" fill="#6B7F6D" stroke="#B89228" strokeWidth="0.5"
+      <ellipse cx={cx + 14} cy="3" rx="3.5" ry="2" fill="#A8B5A0" stroke="#A8842F" strokeWidth="0.5"
         transform={`rotate(22,${cx + 14},3)`} opacity="0.65" />
     </>
   )
@@ -53,10 +54,10 @@ function PaisleyCorner({ flip = false, vflip = false }: { flip?: boolean; vflip?
     >
       <path
         d="M3 3 Q14 5 18 14 Q22 22 14 30 M3 3 Q5 13 13 14 M3 3 L10 3 M3 3 L3 10"
-        stroke="#B89228" strokeWidth="0.9" fill="none" strokeLinecap="round"
+        stroke="#A8842F" strokeWidth="0.9" fill="none" strokeLinecap="round"
       />
-      <circle cx="3" cy="3" r="1.4" fill="#D4AF37" />
-      <circle cx="14" cy="30" r="1.6" fill="#D4AF37" opacity="0.85" />
+      <circle cx="3" cy="3" r="1.4" fill="#C9A24B" />
+      <circle cx="14" cy="30" r="1.6" fill="#C9A24B" opacity="0.85" />
     </svg>
   )
 }
@@ -97,11 +98,11 @@ function PersonCard({ photo, name, nameDisplay, role, parents, home, contact, de
           position: 'relative',
           width: W + 28,
           padding: 14,
-          background: 'linear-gradient(160deg, rgba(253,252,249,0.85) 0%, rgba(243,226,159,0.55) 100%)',
+          background: 'linear-gradient(160deg, rgba(255,250,235,0.85) 0%, rgba(248,234,200,0.55) 100%)',
           backdropFilter: 'blur(8px)',
-          border: '1px solid rgba(212,175,55,0.45)',
+          border: '1px solid rgba(201,162,75,0.45)',
           borderRadius: 6,
-          boxShadow: '0 12px 36px -8px rgba(58,75,60,0.18), inset 0 1px 0 rgba(255,255,255,0.6)',
+          boxShadow: '0 12px 36px -8px rgba(110,31,43,0.18), inset 0 1px 0 rgba(255,255,255,0.6)',
           rotateX: rx,
           rotateY: ry,
           transformStyle: 'preserve-3d',
@@ -144,11 +145,11 @@ function PersonCard({ photo, name, nameDisplay, role, parents, home, contact, de
               style={{
                 position: 'absolute', inset: 0,
                 clipPath: `url(#${clipId})`,
-                background: 'linear-gradient(160deg, #6B7F6D 0%, #3A4B3C 100%)',
+                background: 'linear-gradient(160deg, #E8C5C0 0%, #A8B5A0 100%)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
               }}
             >
-              <span className="font-script text-6xl text-gold-light/90">{nameDisplay[0]}</span>
+              <span className="font-script text-6xl text-maroon/70">{nameDisplay[0]}</span>
             </div>
           )}
 
@@ -159,8 +160,8 @@ function PersonCard({ photo, name, nameDisplay, role, parents, home, contact, de
             height={H}
             aria-hidden
           >
-            <path d={archPath} fill="none" stroke="#B89228" strokeWidth="1.5" opacity="0.85" />
-            <path d={archInner} fill="none" stroke="#D4AF37" strokeWidth="0.8" opacity="0.55" />
+            <path d={archPath} fill="none" stroke="#A8842F" strokeWidth="1.5" opacity="0.85" />
+            <path d={archInner} fill="none" stroke="#C9A24B" strokeWidth="0.8" opacity="0.55" />
             <ArchCrownFlourish />
           </svg>
         </div>
@@ -173,7 +174,7 @@ function PersonCard({ photo, name, nameDisplay, role, parents, home, contact, de
             transform: 'translateX(-50%)',
             width: '70%',
             height: 24,
-            background: 'radial-gradient(ellipse, rgba(58,75,60,0.18) 0%, transparent 70%)',
+            background: 'radial-gradient(ellipse, rgba(110,31,43,0.18) 0%, transparent 70%)',
             filter: 'blur(8px)',
             pointerEvents: 'none',
           }}
@@ -182,12 +183,12 @@ function PersonCard({ photo, name, nameDisplay, role, parents, home, contact, de
       </motion.div>
 
       <div>
-        <p className="section-sub mb-2" style={{ color: 'var(--olive)' }}>{role}</p>
+        <p className="section-sub mb-2" style={{ color: 'var(--maroon)' }}>{role}</p>
         <h3 className="font-script gold-foil text-5xl mb-3" style={{ lineHeight: 1 }}>{nameDisplay}</h3>
-        {parents && <p className="font-display italic text-base text-ink-soft leading-relaxed max-w-[280px]">{parents}</p>}
-        {home && <p className="font-heading text-[11px] text-gold-deep tracking-[0.28em] uppercase mt-3">{home}</p>}
+        <p className="font-display italic text-base text-ink-soft leading-relaxed max-w-[280px]">{parents}</p>
+        <p className="font-heading text-[11px] text-gold-deep tracking-[0.28em] uppercase mt-3">{home}</p>
         {contact && (
-          <a href={`tel:${contact.replace(/[^0-9+]/g, '')}`} className="inline-flex items-center gap-1.5 font-body text-xs text-olive hover:text-gold-deep mt-2 tracking-wider transition-colors">
+          <a href={`tel:${contact.replace(/[^0-9+]/g, '')}`} className="inline-flex items-center gap-1.5 font-body text-xs text-maroon hover:text-gold-deep mt-2 tracking-wider transition-colors">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
             </svg>
@@ -214,15 +215,15 @@ function PeacockFeather() {
     >
       <defs>
         <radialGradient id="eye" cx="50%" cy="40%">
-          <stop offset="0%" stopColor="#3A4B3C" />
+          <stop offset="0%" stopColor="#6E1F2B" />
           <stop offset="40%" stopColor="#0F4C5C" />
-          <stop offset="70%" stopColor="#D4AF37" />
-          <stop offset="100%" stopColor="#6B7F6D" />
+          <stop offset="70%" stopColor="#C9A24B" />
+          <stop offset="100%" stopColor="#A8B5A0" />
         </radialGradient>
       </defs>
       <motion.path
         d="M40 158 Q42 100 40 30"
-        stroke="#B89228"
+        stroke="#A8842F"
         strokeWidth="1"
         fill="none"
         strokeLinecap="round"
@@ -237,15 +238,15 @@ function PeacockFeather() {
         const len = 6 + Math.sin(t * Math.PI) * 18
         return (
           <g key={i} opacity={0.6}>
-            <line x1={40} y1={y} x2={40 - len} y2={y - 2} stroke="#6B7F6D" strokeWidth="0.6" />
-            <line x1={40} y1={y} x2={40 + len} y2={y - 2} stroke="#6B7F6D" strokeWidth="0.6" />
+            <line x1={40} y1={y} x2={40 - len} y2={y - 2} stroke="#A8B5A0" strokeWidth="0.6" />
+            <line x1={40} y1={y} x2={40 + len} y2={y - 2} stroke="#A8B5A0" strokeWidth="0.6" />
           </g>
         )
       })}
       <ellipse cx="40" cy="22" rx="14" ry="20" fill="url(#eye)" opacity="0.85" />
       <ellipse cx="40" cy="18" rx="6" ry="10" fill="#0F4C5C" opacity="0.9" />
-      <ellipse cx="40" cy="16" rx="3" ry="5" fill="#3A4B3C" />
-      <circle cx="40" cy="14" r="1.5" fill="#FAF8F5" />
+      <ellipse cx="40" cy="16" rx="3" ry="5" fill="#6E1F2B" />
+      <circle cx="40" cy="14" r="1.5" fill="#FBF7F2" />
     </motion.svg>
   )
 }
@@ -260,22 +261,17 @@ export default function CoupleSection() {
         viewport={{ once: true }}
         transition={{ duration: 0.9 }}
       >
-        <p className="section-sub mb-3">With immense joy</p>
-        <h2 className="section-heading-script gold-foil mb-6">Amal &amp; Surya</h2>
-        
-        <div className="card-glass p-6 sm:p-8 rounded-xl border border-gold/40 shadow-lg mb-10">
-          <p className="font-display italic text-lg sm:text-xl text-ink leading-relaxed mb-4">
-            &ldquo;We warmly invite you to join us in celebrating our wedding and reception as we begin our new journey together.&rdquo;
-          </p>
-        </div>
+        <h2 className="section-heading-script gold-foil mb-2">The Union of Hearts</h2>
       </motion.div>
 
       <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-16 md:gap-10 items-start justify-items-center">
         <PersonCard
           photo={groomPhoto}
-          name="Amal"
-          nameDisplay="Amal"
-          role="The Groom"
+          name={coupleData.groom.name}
+          nameDisplay={coupleData.groom.nameDisplay}
+          role={coupleData.groom.role}
+          parents={coupleData.groom.parents}
+          home={coupleData.groom.home}
           delay={0.1}
         />
 
@@ -288,9 +284,11 @@ export default function CoupleSection() {
 
         <PersonCard
           photo={bridePhoto}
-          name="Surya"
-          nameDisplay="Surya"
-          role="The Bride"
+          name={coupleData.bride.name}
+          nameDisplay={coupleData.bride.nameDisplay}
+          role={coupleData.bride.role}
+          parents={coupleData.bride.parents}
+          home={coupleData.bride.home}
           delay={0.25}
         />
       </div>

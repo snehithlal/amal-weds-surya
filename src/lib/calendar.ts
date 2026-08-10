@@ -49,7 +49,7 @@ export function downloadICS(event: CalendarEvent): void {
   const ics = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
-    'PRODID:-//Amal & Surya Wedding//EN',
+    'PRODID:-//Amal & Aishwarya Wedding//EN',
     'CALSCALE:GREGORIAN',
     'METHOD:PUBLISH',
     'BEGIN:VEVENT',
@@ -59,7 +59,7 @@ export function downloadICS(event: CalendarEvent): void {
     `SUMMARY:${event.title}`,
     `LOCATION:${event.location}`,
     `DESCRIPTION:${event.description}`,
-    `UID:${now}-wedding@amal-surya.love`,
+    `UID:${now}-wedding@amal.love`,
     'END:VEVENT',
     'END:VCALENDAR',
   ].join('\r\n')
@@ -72,18 +72,26 @@ export function downloadICS(event: CalendarEvent): void {
   URL.revokeObjectURL(url)
 }
 
-export const weddingEvent: CalendarEvent = {
-  title: 'Amal & Surya — Wedding Ceremony',
-  startIST: '20260830T103000',
-  endIST: '20260830T133000',
-  location: 'Wedding Venue',
-  description: 'Join us to celebrate the wedding ceremony of Amal & Surya',
+export const weddingCeremonyEvent: CalendarEvent = {
+  title: 'Amal & Aishwarya — Thalikettu Wedding Ceremony',
+  startIST: '20260830T080000',
+  endIST: '20260830T093000',
+  location: 'Guruvayur Sree Krishna Temple, Guruvayur, Thrissur',
+  description: 'Join us for the auspicious Thalikettu wedding ceremony of Amal & Aishwarya.',
+}
+
+export const weddingFeastEvent: CalendarEvent = {
+  title: 'Amal & Aishwarya — Wedding Feast & Celebration',
+  startIST: '20260830T110000',
+  endIST: '20260830T140000',
+  location: 'Nandanam Regency, Karuvanthala, Guruvayur',
+  description: 'Join us for the wedding feast and celebration of Amal & Aishwarya.',
 }
 
 export const receptionEvent: CalendarEvent = {
-  title: 'Amal & Surya — Wedding Reception',
-  startIST: '20260906T180000',
-  endIST: '20260906T213000',
-  location: 'Reception Venue',
-  description: 'Join us for the wedding reception of Amal & Surya',
+  title: 'Amal & Aishwarya — Wedding Reception',
+  startIST: '20260906T160000',
+  endIST: '20260906T210000',
+  location: 'ALMA Convention Center, Nambikolly, Wayanad',
+  description: 'Join us for the grand evening wedding reception of Amal & Aishwarya.',
 }

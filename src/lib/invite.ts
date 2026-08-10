@@ -12,29 +12,42 @@ export interface EventInfo {
 }
 
 export const WEDDING_CEREMONY: EventInfo = {
-  title: 'Wedding Ceremony (Muhurtham)',
-  subtitle: 'The Sacred Union of Amal & Surya',
-  dateDisplay: '30 . 08 . 2026',
-  timeDisplay: '10:15 AM - 11:30 AM',
-  venue: 'Sri Gokulam Convention Centre',
-  address: 'Guruvayur, Thrissur, Kerala',
-  mapUrl: 'https://maps.google.com/?q=Guruvayur+Kerala',
-  startIST: '20260830T101500',
-  endIST: '20260830T123000',
-  countdownUTC: '2026-08-30T04:45:00Z',
+  title: 'Sacred Union & Thalikettu',
+  subtitle: 'The Wedding Ceremony',
+  dateDisplay: 'Sunday, 30 . 08 . 2026',
+  timeDisplay: 'Thalikettu: 8:00 AM – 9:00 AM',
+  venue: 'Guruvayur Sree Krishna Temple',
+  address: 'Guruvayur, Thrissur',
+  mapUrl: 'https://maps.app.goo.gl/jMHYJH2VZES7RyHx8',
+  startIST: '20260830T080000',
+  endIST: '20260830T093000',
+  countdownUTC: '2026-08-30T02:30:00Z',
+}
+
+export const WEDDING_FEAST: EventInfo = {
+  title: 'Wedding Feast & Celebration',
+  subtitle: 'Guruvayur Reception',
+  dateDisplay: 'Sunday, 30 . 08 . 2026',
+  timeDisplay: '11:00 AM – 2:00 PM',
+  venue: 'Nandanam Regency',
+  address: 'Karuvanthala, Guruvayur',
+  mapUrl: 'https://maps.app.goo.gl/jMHYJH2VZES7RyHx8',
+  startIST: '20260830T110000',
+  endIST: '20260830T140000',
+  countdownUTC: '2026-08-30T05:30:00Z',
 }
 
 export const WEDDING_RECEPTION: EventInfo = {
-  title: 'Wedding Reception',
+  title: 'The Wedding Reception',
   subtitle: 'Grand Evening Celebration',
-  dateDisplay: '06 . 09 . 2026',
-  timeDisplay: '6:30 PM Onwards',
-  venue: 'Grand Palace Auditorium',
-  address: 'Kochi, Kerala',
-  mapUrl: 'https://maps.google.com/?q=Kochi+Kerala',
-  startIST: '20260906T183000',
-  endIST: '20260906T220000',
-  countdownUTC: '2026-09-06T13:00:00Z',
+  dateDisplay: 'Sunday, 06 . 09 . 2026',
+  timeDisplay: '4:00 PM – 9:00 PM',
+  venue: 'ALMA Convention Center',
+  address: 'Nambikolly, Wayanad',
+  mapUrl: 'https://maps.app.goo.gl/1TWeM593fWJEJYEp7',
+  startIST: '20260906T160000',
+  endIST: '20260906T210000',
+  countdownUTC: '2026-09-06T10:30:00Z',
 }
 
 export interface CoupleProfile {
@@ -42,66 +55,47 @@ export interface CoupleProfile {
   nameDisplay: string
   parents: string
   home: string
-  photo: string
 }
+
+export function readKind(): 'wedding' | 'reception' {
+  if (typeof window === 'undefined') return 'wedding'
+  const path = window.location.pathname.toLowerCase()
+  if (path.includes('/reception')) return 'reception'
+
+  const params = new URLSearchParams(window.location.search)
+  const q = (
+    params.get('invite') ||
+    params.get('type') ||
+    params.get('event')
+  )?.toLowerCase()
+
+  if (q === 'reception' || params.has('reception')) return 'reception'
+
+  return 'wedding'
+}
+
+export const inviteKind = readKind()
+export const isReception = inviteKind === 'reception'
+export const isWedding = inviteKind === 'wedding'
+
+export const primaryEvent: EventInfo = isReception ? WEDDING_RECEPTION : WEDDING_CEREMONY
+
+export const coupleNames = 'Amal & Aishwarya'
+export const monogramText = 'A & A'
 
 export const coupleData = {
   groom: {
     name: 'Amal',
     nameDisplay: 'Amal',
-    parents: 'Son of Family',
-    home: 'Thrissur, Kerala',
-    photo: './images/couple.jpg',
+    role: 'The Groom',
+    parents: 'Son of Mr. Girish Kumar & Mrs. Sindhu Girish',
+    home: 'Edakkattupparambil House, Cheeral, Sultan Bathery, Wayanad',
   },
   bride: {
-    name: 'Surya',
-    nameDisplay: 'Surya',
-    parents: 'Daughter of Family',
-    home: 'Kochi, Kerala',
-    photo: './images/couple2.jpg',
+    name: 'Aishwarya',
+    nameDisplay: 'Aishwarya',
+    role: 'The Bride',
+    parents: 'Daughter of Mr. Jayan M.C. & Mrs. Sindhu Jayan',
+    home: 'Marakkath House, Kannoth, Vengidang, Thrissur',
   },
-  heroImage: './images/couple.jpg',
-  gallery: [
-    {
-      src: './images/couple.jpg',
-      caption: 'Traditional Moments',
-      category: 'Ceremony',
-    },
-    {
-      src: './images/couple2.jpg',
-      caption: 'By the Temple Pond',
-      category: 'Pre-Wedding',
-    },
-    {
-      src: './images/gallery1.jpg',
-      caption: 'Picnic Fun with our Furry Friend',
-      category: 'Memories',
-    },
-    {
-      src: './images/gallery2.jpg',
-      caption: 'Walking Together in Nature',
-      category: 'Memories',
-    },
-  ],
 }
-
-export function readKind(): 'all' | 'wedding' | 'reception' {
-  if (typeof window === 'undefined') return 'all'
-  const path = window.location.pathname.toLowerCase()
-  if (path.includes('/reception')) return 'reception'
-  if (path.includes('/wedding')) return 'wedding'
-
-  const params = new URLSearchParams(window.location.search)
-  const q = params.get('invite')?.toLowerCase()
-  if (q === 'reception') return 'reception'
-  if (q === 'wedding') return 'wedding'
-
-  return 'all'
-}
-
-export const inviteKind = readKind()
-export const primaryEvent: EventInfo =
-  inviteKind === 'reception' ? WEDDING_RECEPTION : WEDDING_CEREMONY
-
-export const showWedding = inviteKind === 'all' || inviteKind === 'wedding'
-export const showReception = inviteKind === 'all' || inviteKind === 'reception'

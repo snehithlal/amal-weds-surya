@@ -4,18 +4,18 @@ export default {
   theme: {
     extend: {
       colors: {
-        cream: '#FAF8F5',
-        ivory: '#FDFCF9',
-        olive: '#3A4B3C',
-        'olive-soft': '#4A5D4E',
-        'olive-deep': '#273528',
-        sage: '#6B7F6D',
-        'sage-light': '#D0DBCF',
+        cream: '#FAF7F2',
+        ivory: '#FDFBF7',
+        emerald: '#0D3B36',
+        'emerald-soft': '#165B53',
+        'emerald-deep': '#082824',
+        sage: '#A3C9B8',
+        'sage-light': '#D4E6DF',
         gold: '#D4AF37',
         'gold-light': '#F3E29F',
         'gold-deep': '#B89228',
-        ink: '#1C261D',
-        'ink-soft': '#4B594C',
+        ink: '#1A2926',
+        'ink-soft': '#455A55',
       },
       fontFamily: {
         display: ['"Cormorant Garamond"', 'serif'],
@@ -28,6 +28,11 @@ export default {
           '0%': { transform: 'scale(1) translateY(0px)' },
           '100%': { transform: 'scale(1.08) translateY(-15px)' },
         },
+        floatUp: {
+          '0%': { opacity: '0', transform: 'translateY(0px)' },
+          '20%': { opacity: '0.7' },
+          '100%': { opacity: '0', transform: 'translateY(-100vh)' },
+        },
         shimmer: {
           '0%, 100%': { backgroundPosition: '0% 50%' },
           '50%': { backgroundPosition: '100% 50%' },
@@ -35,9 +40,11 @@ export default {
       },
       animation: {
         kenburns: 'kenburns 12s ease-in-out infinite alternate',
+        'float-up': 'floatUp linear infinite',
         shimmer: 'shimmer 6s ease-in-out infinite',
       },
     },
   },
   plugins: [],
 }
+

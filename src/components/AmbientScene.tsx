@@ -7,10 +7,10 @@ function rand(seed: number) {
 }
 
 const PETAL_COLORS = [
-  { fill: '#6B7F6D', glow: '#D0DBCF' },  // olive sage
-  { fill: '#D4AF37', glow: '#F3E29F' },  // gold
-  { fill: '#A3C9B8', glow: '#E2F0EA' },  // soft mint
-  { fill: '#FAF8F5', glow: '#FFFFFF' },  // linen
+  { fill: '#E0A33D', glow: '#F2C76A' },  // marigold
+  { fill: '#E8C5C0', glow: '#F4DAD6' },  // blush
+  { fill: '#B07A75', glow: '#D4A5A0' },  // rose
+  { fill: '#FAF3E7', glow: '#FFFBEF' },  // cream
 ]
 
 function PetalSVG({ color, glow }: { color: string; glow: string }) {
@@ -79,7 +79,7 @@ export default function AmbientScene({ active = true }: { active?: boolean }) {
           position: 'absolute',
           inset: 0,
           background:
-            'radial-gradient(ellipse at center, transparent 50%, rgba(58,75,60,0.06) 100%)',
+            'radial-gradient(ellipse at center, transparent 50%, rgba(13,59,54,0.06) 100%)',
         }}
       />
 
@@ -95,9 +95,9 @@ export default function AmbientScene({ active = true }: { active?: boolean }) {
                 width: d.size,
                 height: d.size,
                 borderRadius: '50%',
-                background: 'radial-gradient(circle, #F3E29F 0%, rgba(243,226,159,0) 70%)',
+                background: 'radial-gradient(circle, #F2C76A 0%, rgba(242,199,106,0) 70%)',
                 opacity: d.opacity,
-                boxShadow: '0 0 6px rgba(212,175,55,0.6)',
+                boxShadow: '0 0 6px rgba(232,210,154,0.6)',
               }}
               animate={{
                 y: [0, -window.innerHeight - 40],
@@ -122,7 +122,7 @@ export default function AmbientScene({ active = true }: { active?: boolean }) {
                 top: -40,
                 width: p.size,
                 height: p.size * 1.4,
-                filter: 'drop-shadow(0 2px 4px rgba(58,75,60,0.15))',
+                filter: 'drop-shadow(0 2px 4px rgba(13,59,54,0.15))',
               }}
               animate={{
                 y: [0, window.innerHeight + 80],

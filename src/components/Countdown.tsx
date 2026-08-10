@@ -29,12 +29,12 @@ function Digit({ value, label, pulse }: { value: number; label: string; pulse?: 
         width: 102,
         padding: '20px 0',
         textAlign: 'center',
-        background: 'linear-gradient(160deg, rgba(253,252,249,0.75) 0%, rgba(243,226,159,0.18) 100%)',
+        background: 'linear-gradient(160deg, rgba(255,244,220,0.55) 0%, rgba(232,210,154,0.18) 100%)',
         backdropFilter: 'blur(14px)',
         WebkitBackdropFilter: 'blur(14px)',
-        border: '1px solid rgba(212,175,55,0.45)',
+        border: '1px solid rgba(201,162,75,0.45)',
         borderRadius: 10,
-        boxShadow: '0 8px 28px -8px rgba(58,75,60,0.18), inset 0 1px 0 rgba(255,255,255,0.6), inset 0 -8px 18px rgba(243,226,159,0.18)',
+        boxShadow: '0 8px 28px -8px rgba(110,31,43,0.18), inset 0 1px 0 rgba(255,255,255,0.6), inset 0 -8px 18px rgba(232,210,154,0.18)',
         overflow: 'hidden',
       }}>
         <span style={cornerStyle('top', 'left')} />
@@ -46,9 +46,9 @@ function Digit({ value, label, pulse }: { value: number; label: string; pulse?: 
           <motion.div
             style={{ position: 'absolute', inset: 0, borderRadius: 10, pointerEvents: 'none' }}
             animate={{ boxShadow: [
-              '0 0 0px rgba(212,175,55,0)',
-              '0 0 22px rgba(243,226,159,0.45)',
-              '0 0 0px rgba(212,175,55,0)',
+              '0 0 0px rgba(201,162,75,0)',
+              '0 0 22px rgba(232,210,154,0.45)',
+              '0 0 0px rgba(201,162,75,0)',
             ]}}
             transition={{ duration: 1, repeat: Infinity, ease: 'easeInOut' }}
           />
@@ -64,7 +64,7 @@ function Digit({ value, label, pulse }: { value: number; label: string; pulse?: 
               fontFamily: 'Marcellus, serif',
               fontSize: 44,
               lineHeight: 1,
-              color: 'var(--olive)',
+              color: 'var(--maroon)',
               fontFeatureSettings: '"tnum", "lnum", "kern"',
               fontVariantNumeric: 'tabular-nums lining-nums',
               letterSpacing: '0.04em',
@@ -97,17 +97,17 @@ function cornerStyle(v: 'top' | 'bottom', h: 'left' | 'right'): React.CSSPropert
     position: 'absolute',
     [v]: 4, [h]: 4,
     width: 8, height: 8,
-    borderTop: v === 'top' ? '1px solid rgba(184,146,40,0.7)' : 'none',
-    borderBottom: v === 'bottom' ? '1px solid rgba(184,146,40,0.7)' : 'none',
-    borderLeft: h === 'left' ? '1px solid rgba(184,146,40,0.7)' : 'none',
-    borderRight: h === 'right' ? '1px solid rgba(184,146,40,0.7)' : 'none',
+    borderTop: v === 'top' ? '1px solid rgba(168,132,47,0.7)' : 'none',
+    borderBottom: v === 'bottom' ? '1px solid rgba(168,132,47,0.7)' : 'none',
+    borderLeft: h === 'left' ? '1px solid rgba(168,132,47,0.7)' : 'none',
+    borderRight: h === 'right' ? '1px solid rgba(168,132,47,0.7)' : 'none',
   } as React.CSSProperties
 }
 
 const SEP: React.CSSProperties = {
   fontFamily: '"Cormorant Garamond", serif',
   fontSize: 26,
-  color: 'rgba(184,146,40,0.7)',
+  color: 'rgba(168,132,47,0.7)',
   fontWeight: 300,
   lineHeight: 1,
   flexShrink: 0,
@@ -148,7 +148,7 @@ export default function Countdown() {
       >
         <p className="section-sub" style={{ marginBottom: 14 }}>Until forever begins</p>
         <h2 className="section-heading-script gold-foil" style={{ marginBottom: 8 }}>Counting down</h2>
-        <p className="font-display italic text-ink-soft text-lg" style={{ marginBottom: 48 }}>to our big day</p>
+        <p className="font-display italic text-ink-soft text-lg" style={{ marginBottom: 48 }}>to our special day</p>
 
         <div className="countdown-wrapper">
           <div className="countdown-row">

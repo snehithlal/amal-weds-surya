@@ -39,18 +39,18 @@ function CalendarPanel({ event, onClose }: { event: CalendarEvent; onClose: () =
       style={{ overflow: 'hidden', marginTop: 16 }}
     >
       <div style={{
-        background: '#FDFCF9',
-        border: '1px solid rgba(212,175,55,0.4)',
+        background: '#FBF7F2',
+        border: '1px solid rgba(201,169,110,0.4)',
         borderRadius: 8,
         overflow: 'hidden',
-        boxShadow: '0 4px 20px rgba(58,75,60,0.08)',
+        boxShadow: '0 4px 20px rgba(58,47,42,0.08)',
       }}>
         <div style={{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
           padding: '10px 16px 9px',
-          borderBottom: '1px solid rgba(212,175,55,0.18)',
+          borderBottom: '1px solid rgba(201,169,110,0.18)',
         }}>
           <span style={{
             fontFamily: 'Inter, sans-serif',
@@ -91,13 +91,13 @@ function CalendarPanel({ event, onClose }: { event: CalendarEvent; onClose: () =
               color: 'var(--ink)',
               background: 'transparent',
               border: 'none',
-              borderBottom: i < options.length - 1 ? '1px solid rgba(212,175,55,0.1)' : 'none',
+              borderBottom: i < options.length - 1 ? '1px solid rgba(201,169,110,0.1)' : 'none',
               cursor: 'pointer',
               textAlign: 'left',
               transition: 'background 180ms ease, color 180ms ease',
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.background = 'rgba(212,175,55,0.1)'
+              e.currentTarget.style.background = 'rgba(201,169,110,0.1)'
               e.currentTarget.style.color = 'var(--ink)'
             }}
             onMouseLeave={(e) => {
@@ -120,13 +120,13 @@ function InfoRow({ icon, label, value }: { icon: React.ReactNode; label: string;
       gap: 12,
       background: 'rgba(255,255,255,0.55)',
       backdropFilter: 'blur(4px)',
-      border: '1px solid rgba(212,175,55,0.15)',
+      border: '1px solid rgba(201,169,110,0.15)',
       borderRadius: 14,
       padding: '12px 14px',
     }}>
       <span style={{
         width: 32, height: 32, borderRadius: '50%',
-        background: 'rgba(212,175,55,0.1)',
+        background: 'rgba(201,169,110,0.1)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         flexShrink: 0, color: 'var(--gold)',
       }}>
@@ -163,10 +163,10 @@ function ActionBtn({
     transition: 'all 300ms ease',
     background: active ? 'var(--gold)' : 'white',
     color: active ? 'white' : 'var(--gold)',
-    border: '1px solid rgba(212,175,55,0.3)',
+    border: '1px solid rgba(201,169,110,0.3)',
     boxShadow: active
-      ? '0 4px 16px rgba(212,175,55,0.4)'
-      : '0 2px 8px rgba(58,75,60,0.1)',
+      ? '0 4px 16px rgba(201,162,75,0.4)'
+      : '0 2px 8px rgba(58,47,42,0.1)',
   }
   const labelStyle: React.CSSProperties = {
     fontFamily: 'Inter, sans-serif', fontSize: 9,
@@ -208,34 +208,34 @@ export default function EventCard({
         transformOrigin: 'top center',
         borderRadius: 6,
         backgroundImage: `
-          radial-gradient(ellipse at top left, rgba(208,219,207,0.25) 0%, transparent 60%),
-          radial-gradient(ellipse at bottom right, rgba(243,226,159,0.18) 0%, transparent 60%),
-          linear-gradient(180deg, rgba(253,252,249,0.75) 0%, rgba(245,247,244,0.6) 100%)
+          radial-gradient(ellipse at top left, rgba(232,197,192,0.18) 0%, transparent 60%),
+          radial-gradient(ellipse at bottom right, rgba(168,181,160,0.12) 0%, transparent 60%),
+          linear-gradient(180deg, rgba(255,250,235,0.7) 0%, rgba(248,234,200,0.55) 100%)
         `,
-        boxShadow: '0 12px 36px -8px rgba(58,75,60,0.18), inset 0 1px 0 rgba(255,255,255,0.6)',
-        border: '1px solid rgba(212,175,55,0.45)',
+        boxShadow: '0 12px 36px -8px rgba(110,31,43,0.18), inset 0 1px 0 rgba(255,255,255,0.6)',
+        border: '1px solid rgba(201,162,75,0.45)',
       }}
     >
       <div className="absolute top-0 left-0 right-0 h-[2px]"
-        style={{ background: 'linear-gradient(90deg, transparent, rgba(184,146,40,0.6), transparent)' }}
+        style={{ background: 'linear-gradient(90deg, transparent, rgba(168,132,47,0.6), transparent)' }}
         aria-hidden
       />
       <div className="absolute inset-2 pointer-events-none rounded-[3px]"
-        style={{ border: '1px solid rgba(184,146,40,0.3)' }}
+        style={{ border: '1px solid rgba(168,132,47,0.3)' }}
         aria-hidden
       />
 
       <div className="flex justify-center mb-5" aria-hidden>
         <svg width="68" height="42" viewBox="0 0 68 42" fill="none">
-          <circle cx="25" cy="21" r="17" stroke="#B89228" strokeWidth="1.8" opacity="0.85"/>
-          <circle cx="43" cy="21" r="17" stroke="#B89228" strokeWidth="1.8" opacity="0.85"/>
-          <circle cx="25" cy="21" r="11" stroke="rgba(212,175,55,0.45)" strokeWidth="0.9"/>
-          <circle cx="43" cy="21" r="11" stroke="rgba(212,175,55,0.45)" strokeWidth="0.9"/>
+          <circle cx="25" cy="21" r="17" stroke="#A8842F" strokeWidth="1.8" opacity="0.85"/>
+          <circle cx="43" cy="21" r="17" stroke="#A8842F" strokeWidth="1.8" opacity="0.85"/>
+          <circle cx="25" cy="21" r="11" stroke="rgba(201,162,75,0.45)" strokeWidth="0.9"/>
+          <circle cx="43" cy="21" r="11" stroke="rgba(201,162,75,0.45)" strokeWidth="0.9"/>
         </svg>
       </div>
 
-      {subtitle && <p className="section-sub mb-2" style={{ color: 'var(--olive)' }}>{subtitle}</p>}
-      <h2 className="section-heading mb-2" style={{ color: 'var(--olive)' }}>{title}</h2>
+      {subtitle && <p className="section-sub mb-2" style={{ color: 'var(--maroon)' }}>{subtitle}</p>}
+      <h2 className="section-heading mb-2" style={{ color: 'var(--maroon)' }}>{title}</h2>
       <div className="flex justify-center mb-7" aria-hidden>
         <div className="h-px w-16 bg-gradient-to-r from-transparent via-gold to-transparent" />
       </div>

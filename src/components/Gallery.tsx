@@ -1,65 +1,118 @@
 import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { galleryPhotos } from '../lib/images'
 import Lightbox from './Lightbox'
 import BotanicalDivider from './BotanicalDivider'
 
-export default function Gallery() {
-  const [lightboxIdx, setLightboxIdx] = useState(-1)
+const ROTATIONS = [-2, 3, -1, 4, -3, 2, -4, 1, 3, -2]
 
-  if (galleryPhotos.length === 0) return null
+export default function Gallery() {
+  const [lightboxIdx, setLightboxIdx] = useState<number | null>(null)
+  const images = galleryPhotos
+
+  const prev = () => setLightboxIdx((i) => (i === null ? null : (i - 1 + images.length) % images.length))
+  const next = () => setLightboxIdx((i) => (i === null ? null : (i + 1) % images.length))
 
   return (
-    <section id="gallery" aria-label="Photo gallery" className="py-24 px-6 max-w-5xl mx-auto text-center">
+    <section id="gallery" aria-label="Photo gallery" className="py-24 px-6 max-w-6xl mx-auto">
       <motion.div
-        className="mb-12"
+        className="text-center mb-16"
         initial={{ opacity: 0, y: 20, filter: 'blur(6px)' }}
         whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
         viewport={{ once: true }}
         transition={{ duration: 0.9 }}
       >
         <p className="section-sub mb-3">Moments captured</p>
-        <h2 className="section-heading-script gold-foil">Our Memories</h2>
+        <h2 className="section-heading-script gold-foil">Our Gallery</h2>
       </motion.div>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
-        {galleryPhotos.map((src, i) => (
-          <motion.div
-            key={i}
-            className="relative aspect-square overflow-hidden rounded-xl cursor-pointer group shadow-md"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: i * 0.1 }}
-            onClick={() => setLightboxIdx(i)}
-          >
-            <img
-              src={src}
-              alt={`Gallery moment ${i + 1}`}
-              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-108"
-              loading="lazy"
-              decoding="async"
-            />
-            <div className="absolute inset-0 bg-olive-deep/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-              <span className="text-gold-light font-heading text-xs tracking-widest uppercase">View</span>
-            </div>
-          </motion.div>
-        ))}
-      </div>
+      {images.length === 0 ? (
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <motion.div
+              key={i}
+              className="aspect-[3/4]"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: i * 0.07 }}
+              style={{ transform: `rotate(${ROTATIONS[i % ROTATIONS.length]}deg)` }}
+            >
+              <div className="h-full bg-white shadow-[0_8px_24px_-8px_rgba(58,47,42,0.25)] flex flex-col"
+                style={{ padding: '10px 10px 32px' }}>
+                <div className="flex-1 bg-sage-light/20 border border-gold/15 flex items-center justify-center">
+                  <p className="font-body text-xs text-ink-soft text-center px-4">Photo coming soon</p>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      ) : (
+        <div className="columns-2 md:columns-3 gap-6 space-y-8">
+          {images.map((src, i) => {
+            const rot = ROTATIONS[i % ROTATIONS.length]
+            return (
+              <motion.button
+                key={src}
+                className="break-inside-avoid w-full block cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-gold group"
+                initial={{ opacity: 0, y: 24, filter: 'blur(6px)' }}
+                whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.7, delay: (i % 3) * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                onClick={() => setLightboxIdx(i)}
+                aria-label={`Open photo ${i + 1} in lightbox`}
+                style={{
+                  transform: `rotate(${rot}deg)`,
+                  transition: 'transform 400ms cubic-bezier(0.22,1,0.36,1)',
+                }}
+                whileHover={{
+                  rotate: 0,
+                  scale: 1.03,
+                  transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] },
+                }}
+              >
+                <div
+                  className="bg-white transition-shadow duration-500 group-hover:shadow-[0_22px_50px_-10px_rgba(110,31,43,0.35)] relative"
+                  style={{
+                    padding: '10px 10px 36px',
+                    boxShadow: '0 10px 28px -8px rgba(110,31,43,0.22), 0 2px 6px rgba(58,30,26,0.1)',
+                  }}
+                >
+                  <div className="absolute inset-2 pointer-events-none transition-opacity duration-500 opacity-0 group-hover:opacity-100"
+                    style={{ boxShadow: 'inset 0 0 0 1px rgba(201,162,75,0.6), inset 0 0 18px rgba(232,210,154,0.35)' }}
+                    aria-hidden
+                  />
+                  <div className="overflow-hidden relative">
+                    <img
+                      src={src}
+                      alt={`Wedding photo ${i + 1}`}
+                      loading="lazy"
+                      decoding="async"
+                      className="w-full object-cover block transition-all duration-500 group-hover:scale-[1.05]"
+                      style={{
+                        filter: 'sepia(0.08) saturate(0.94) contrast(1.02)',
+                        transition: 'filter 500ms ease, transform 600ms cubic-bezier(0.22,1,0.36,1)',
+                      }}
+                    />
+                  </div>
+                </div>
+              </motion.button>
+            )
+          })}
+        </div>
+      )}
 
-      <AnimatePresence>
-        {lightboxIdx >= 0 && (
-          <Lightbox
-            photos={galleryPhotos}
-            index={lightboxIdx}
-            onClose={() => setLightboxIdx(-1)}
-            onPrev={() => setLightboxIdx((i) => (i > 0 ? i - 1 : galleryPhotos.length - 1))}
-            onNext={() => setLightboxIdx((i) => (i < galleryPhotos.length - 1 ? i + 1 : 0))}
-          />
-        )}
-      </AnimatePresence>
+      <BotanicalDivider className="mt-16" />
 
-      <BotanicalDivider className="mt-14" />
+      {lightboxIdx !== null && (
+        <Lightbox
+          images={images}
+          current={lightboxIdx}
+          onClose={() => setLightboxIdx(null)}
+          onPrev={prev}
+          onNext={next}
+        />
+      )}
     </section>
   )
 }

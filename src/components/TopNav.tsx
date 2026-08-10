@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
+import { monogramText } from '../lib/invite'
 
 const LINKS = [
   { href: '#couple', label: 'Couple' },
-  { href: '#story', label: 'Our Story' },
-  { href: '#details', label: 'Events' },
+  { href: '#details', label: 'Details' },
   { href: '#gallery', label: 'Gallery' },
 ]
 
@@ -36,10 +36,10 @@ export default function TopNav() {
           exit={{ y: -64, opacity: 0 }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
           style={{
-            background: 'rgba(250,248,245,0.85)',
+            background: 'rgba(250,243,231,0.82)',
             backdropFilter: 'blur(12px)',
-            borderBottom: '1px solid rgba(212,175,55,0.28)',
-            boxShadow: '0 2px 18px -8px rgba(58,75,60,0.25)',
+            borderBottom: '1px solid rgba(201,162,75,0.28)',
+            boxShadow: '0 2px 18px -8px rgba(110,31,43,0.25)',
           }}
         >
           <div className="max-w-5xl mx-auto flex items-center justify-between px-5 py-3">
@@ -48,15 +48,15 @@ export default function TopNav() {
               className="font-script gold-foil text-2xl leading-none"
               aria-label="Back to top"
             >
-              A &amp; S
+              {monogramText}
             </a>
-            <ul className="flex items-center gap-4 sm:gap-6">
+            <ul className="flex items-center gap-5 sm:gap-7">
               {LINKS.map((l) => (
                 <li key={l.href}>
                   <a
                     href={l.href}
-                    className="font-heading uppercase text-olive transition-colors duration-300 hover:text-gold-deep"
-                    style={{ fontSize: 11, letterSpacing: '0.15em' }}
+                    className="font-heading uppercase text-maroon transition-colors duration-300 hover:text-gold-deep"
+                    style={{ fontSize: 11, letterSpacing: '0.18em' }}
                   >
                     {l.label}
                   </a>

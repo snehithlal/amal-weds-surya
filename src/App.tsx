@@ -4,7 +4,6 @@ import Envelope from './components/Envelope'
 import Hero from './components/Hero'
 import Countdown from './components/Countdown'
 import CoupleSection from './components/CoupleSection'
-import StoryTimeline from './components/StoryTimeline'
 import EventCard from './components/EventCard'
 import Gallery from './components/Gallery'
 import Footer from './components/Footer'
@@ -13,10 +12,10 @@ import AmbientScene from './components/AmbientScene'
 import CursorTrail from './components/CursorTrail'
 import TopNav from './components/TopNav'
 import { ScrollProgressTrack, ScrollIndicator, MapFAB } from './components/ScrollProgress'
-import { weddingEvent, receptionEvent } from './lib/calendar'
-import { primaryEvent, showWedding, showReception } from './lib/invite'
+import { weddingCeremonyEvent, weddingFeastEvent, receptionEvent } from './lib/calendar'
+import { primaryEvent, isReception, isWedding, WEDDING_CEREMONY, WEDDING_FEAST, WEDDING_RECEPTION } from './lib/invite'
 
-const SEEN_KEY = 'amal-surya-envelope-seen'
+const SEEN_KEY = isReception ? 'amal-aishwarya-reception-seen' : 'amal-aishwarya-wedding-seen'
 
 export default function App() {
   const [opened, setOpened] = useState(() => {
@@ -62,7 +61,7 @@ export default function App() {
               zIndex: 55,
               pointerEvents: 'none',
               background:
-                'radial-gradient(circle at center, rgba(243,226,159,0.85) 0%, rgba(208,219,207,0.4) 30%, transparent 70%)',
+                'radial-gradient(circle at center, rgba(242,199,106,0.85) 0%, rgba(232,210,154,0.4) 30%, transparent 70%)',
             }}
             aria-hidden
           />
@@ -85,9 +84,8 @@ export default function App() {
               <Countdown />
               <BotanicalDivider />
               <CoupleSection />
-              <StoryTimeline />
 
-              <section id="details" aria-label="Wedding details" className="py-24 px-6">
+              <section id="details" aria-label="Event details" className="py-24 px-6">
                 <motion.div
                   className="text-center mb-10"
                   initial={{ opacity: 0, y: 20, filter: 'blur(6px)' }}
@@ -96,36 +94,51 @@ export default function App() {
                   transition={{ duration: 0.9 }}
                 >
                   <p className="section-sub mb-3">Join us for the celebrations</p>
-                  <h2 className="section-heading-script gold-foil">Event Details</h2>
+                  <h2 className="section-heading-script gold-foil">
+                    {isReception ? 'Reception Details' : 'Wedding Events'}
+                  </h2>
                 </motion.div>
 
                 <div className="flex flex-col gap-16 max-w-4xl mx-auto">
-                  {/* Event 1: Wedding Ceremony */}
-                  {showWedding && (
-                    <EventCard
-                      title="The Wedding Ceremony"
-                      subtitle="Sacred Muhurtham & Union"
-                      date="Sunday, 30 . 08 . 2026"
-                      time="10:30 AM – 1:30 PM"
-                      venue="Wedding Ceremony Venue"
-                      address="Kannur, Kerala"
-                      mapUrl={primaryEvent.mapUrl}
-                      calEvent={weddingEvent}
-                    />
+                  {/* Wedding View: Thalikettu Ceremony + Nandanam Regency Feast */}
+                  {isWedding && (
+                    <>
+                      <EventCard
+                        title={WEDDING_CEREMONY.title}
+                        subtitle={WEDDING_CEREMONY.subtitle}
+                        date={WEDDING_CEREMONY.dateDisplay}
+                        time={WEDDING_CEREMONY.timeDisplay}
+                        venue={WEDDING_CEREMONY.venue}
+                        address={WEDDING_CEREMONY.address}
+                        mapUrl={WEDDING_CEREMONY.mapUrl}
+                        calEvent={weddingCeremonyEvent}
+                      />
+
+                      <BotanicalDivider className="my-4" />
+
+                      <EventCard
+                        title={WEDDING_FEAST.title}
+                        subtitle={WEDDING_FEAST.subtitle}
+                        date={WEDDING_FEAST.dateDisplay}
+                        time={WEDDING_FEAST.timeDisplay}
+                        venue={WEDDING_FEAST.venue}
+                        address={WEDDING_FEAST.address}
+                        mapUrl={WEDDING_FEAST.mapUrl}
+                        calEvent={weddingFeastEvent}
+                      />
+                    </>
                   )}
 
-                  {showWedding && showReception && <BotanicalDivider className="my-4" />}
-
-                  {/* Event 2: Wedding Reception */}
-                  {showReception && (
+                  {/* Reception View (?invite=reception): Grand Reception at ALMA Convention Center */}
+                  {isReception && (
                     <EventCard
-                      title="The Wedding Reception"
-                      subtitle="Evening Celebration & Feast"
-                      date="Sunday, 06 . 09 . 2026"
-                      time="6:00 PM – 9:30 PM"
-                      venue="Wedding Reception Venue"
-                      address="Kannur, Kerala"
-                      mapUrl={primaryEvent.mapUrl}
+                      title={WEDDING_RECEPTION.title}
+                      subtitle={WEDDING_RECEPTION.subtitle}
+                      date={WEDDING_RECEPTION.dateDisplay}
+                      time={WEDDING_RECEPTION.timeDisplay}
+                      venue={WEDDING_RECEPTION.venue}
+                      address={WEDDING_RECEPTION.address}
+                      mapUrl={WEDDING_RECEPTION.mapUrl}
                       calEvent={receptionEvent}
                     />
                   )}
