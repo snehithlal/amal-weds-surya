@@ -11,9 +11,9 @@ type Phase = 'idle' | 'opening' | 'done'
 const EASE = [0.22, 1, 0.36, 1] as const
 
 const PAPER_GRAIN =
-  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E\")"
+  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E\")"
 
-function Sprig() {
+function GoldSprig() {
   return (
     <g fill="none" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round">
       <path d="M0 34 C 2 22, -2 12, 0 0" />
@@ -39,7 +39,7 @@ function Sprig() {
   )
 }
 
-function EmbossBotanicals() {
+function EmbossSageBotanicals() {
   const placements = [
     { x: 74, y: 92, r: -18, s: 1.1 },
     { x: 226, y: 52, r: 12, s: 0.82 },
@@ -62,7 +62,7 @@ function EmbossBotanicals() {
         inset: 0,
         width: '100%',
         height: '100%',
-        color: 'rgba(146,124,96,0.30)',
+        color: 'rgba(90,135,120,0.28)',
         filter: 'drop-shadow(0 1px 0 rgba(255,255,255,0.9))',
         pointerEvents: 'none',
       }}
@@ -70,7 +70,7 @@ function EmbossBotanicals() {
     >
       {placements.map((p, i) => (
         <g key={i} transform={`translate(${p.x},${p.y}) rotate(${p.r}) scale(${p.s})`}>
-          <Sprig />
+          <GoldSprig />
         </g>
       ))}
       <g fill="none" stroke="currentColor" strokeWidth="0.9" strokeLinecap="round" opacity="0.75">
@@ -83,70 +83,68 @@ function EmbossBotanicals() {
   )
 }
 
-const WAX_BLOB =
-  `M50 6
-   C 66 5, 82 14, 89 29
-   C 96 43, 95 55, 90 68
-   C 85 81, 72 92, 56 94
-   C 41 96, 25 91, 15 79
-   C 5 67, 3 51, 7 37
-   C 12 21, 27 8, 42 6
-   Z`
-
-function WaxSeal() {
+function SageGoldWaxSeal({ text }: { text: string }) {
   return (
-    <svg viewBox="0 0 100 100" width="100%" height="100%" aria-hidden style={{ overflow: 'visible' }}>
+    <svg viewBox="0 0 120 120" width="100%" height="100%" aria-hidden style={{ overflow: 'visible' }}>
       <defs>
-        <radialGradient id="waxFill" cx="36%" cy="30%" r="78%">
-          <stop offset="0%" stopColor="#1C685F" />
-          <stop offset="48%" stopColor="#0D3B36" />
-          <stop offset="100%" stopColor="#051C1A" />
+        <radialGradient id="goldWaxBase" cx="35%" cy="30%" r="75%">
+          <stop offset="0%" stopColor="#FFF7D6" />
+          <stop offset="35%" stopColor="#F7EAB7" />
+          <stop offset="70%" stopColor="#D4AF37" />
+          <stop offset="100%" stopColor="#A8842F" />
         </radialGradient>
-        <radialGradient id="waxRim" cx="50%" cy="50%" r="50%">
-          <stop offset="72%" stopColor="rgba(0,0,0,0)" />
-          <stop offset="100%" stopColor="rgba(4,20,18,0.55)" />
+        <radialGradient id="sageCenter" cx="40%" cy="35%" r="70%">
+          <stop offset="0%" stopColor="#EBF4F1" />
+          <stop offset="60%" stopColor="#D2E3DD" />
+          <stop offset="100%" stopColor="#B4CDC4" />
         </radialGradient>
+        <filter id="sealSageShadow" x="-20%" y="-20%" width="140%" height="140%">
+          <feDropShadow dx="0" dy="4" stdDeviation="5" floodColor="#3A5C52" floodOpacity="0.3" />
+        </filter>
       </defs>
 
-      <ellipse cx="18" cy="76" rx="7" ry="5" fill="#0A2C29" opacity="0.9" />
-      <ellipse cx="84" cy="40" rx="6" ry="4.4" fill="#0A2C29" opacity="0.85" />
+      {/* Realistic wax drip blobs */}
+      <circle cx="28" cy="88" r="9" fill="#D4AF37" opacity="0.85" />
+      <circle cx="94" cy="38" r="8" fill="#D4AF37" opacity="0.8" />
+      <circle cx="98" cy="72" r="6" fill="#A8842F" opacity="0.75" />
 
-      <path d={WAX_BLOB} fill="url(#waxFill)" />
-      <path d={WAX_BLOB} fill="url(#waxRim)" />
+      {/* Outer Wax Ring */}
+      <path
+        d="M60 8
+           C 82 7, 106 18, 112 38
+           C 118 58, 114 82, 98 100
+           C 82 118, 54 116, 34 108
+           C 14 100, 4 76, 8 52
+           C 12 28, 38 9, 60 8 Z"
+        fill="url(#goldWaxBase)"
+        filter="url(#sealSageShadow)"
+      />
 
-      <ellipse cx="36" cy="30" rx="19" ry="14" fill="rgba(243,226,159,0.18)" transform="rotate(-24 36 30)" />
+      {/* Inner Beveled Ridge */}
+      <circle cx="60" cy="60" r="42" fill="none" stroke="#FFF7D6" strokeWidth="1.5" opacity="0.9" />
+      <circle cx="60" cy="60" r="38" fill="url(#sageCenter)" stroke="#C9A24B" strokeWidth="1" />
 
-      <g
-        transform="translate(50,50)"
-        fill="none"
-        stroke="rgba(243,226,159,0.5)"
-        strokeWidth="1.15"
-        strokeLinecap="round"
+      {/* Inner Decorative Laurel */}
+      <circle cx="60" cy="60" r="33" stroke="rgba(168,132,47,0.4)" strokeWidth="0.8" strokeDasharray="2 3" fill="none" />
+
+      {/* Monogram Text */}
+      <text
+        x="60"
+        y="67"
+        textAnchor="middle"
+        fill="#96741C"
+        fontFamily="'Pinyon Script', cursive"
+        fontSize="28"
+        fontWeight="bold"
+        style={{ filter: 'drop-shadow(0 1px 1px rgba(255,255,255,0.8))' }}
       >
-        <text
-          x="0"
-          y="4"
-          textAnchor="middle"
-          fill="rgba(243,226,159,0.95)"
-          fontFamily="'Pinyon Script', cursive"
-          fontSize="22"
-          fontWeight="bold"
-        >
-          {monogramText}
-        </text>
-      </g>
+        {text}
+      </text>
     </svg>
   )
 }
 
 const MEET = '46%'
-
-const FLAPS = [
-  { key: 'left', clip: `polygon(0 0, 0 100%, 50% ${MEET})`, origin: 'left center', opens: false, shade: 0.955 },
-  { key: 'right', clip: `polygon(100% 0, 100% 100%, 50% ${MEET})`, origin: 'right center', opens: false, shade: 0.955 },
-  { key: 'bottom', clip: `polygon(0 100%, 100% 100%, 50% ${MEET})`, origin: 'center bottom', opens: false, shade: 0.982 },
-  { key: 'top', clip: `polygon(0 0, 100% 0, 50% ${MEET})`, origin: 'center top', opens: true, shade: 1 },
-] as const
 
 export default function Envelope({ onOpen }: EnvelopeProps) {
   const [phase, setPhase] = useState<Phase>('idle')
@@ -190,7 +188,7 @@ export default function Envelope({ onOpen }: EnvelopeProps) {
         alignItems: 'center',
         justifyContent: 'center',
         gap: 36,
-        background: 'radial-gradient(ellipse at 50% 42%, #F2EADD 0%, #E3D9C8 62%, #D6CAB6 100%)',
+        background: 'radial-gradient(ellipse at 50% 42%, #F6FAF8 0%, #E8F1EE 65%, #DAE6E2 100%)',
         overflow: 'hidden',
         perspective: 1500,
       }}
@@ -216,9 +214,10 @@ export default function Envelope({ onOpen }: EnvelopeProps) {
           aspectRatio: '1.45 / 1',
           transformStyle: 'preserve-3d',
           cursor: phase === 'idle' ? 'pointer' : 'default',
-          filter: 'drop-shadow(0 18px 30px rgba(120,100,78,0.28))',
+          filter: 'drop-shadow(0 18px 32px rgba(60,90,82,0.22))',
         }}
         initial={{ opacity: 0, y: 14, scale: 0.97 }}
+        whileHover={phase === 'idle' ? { scale: 1.02, rotateX: 2, rotateY: -2 } : undefined}
         animate={
           phase === 'done'
             ? { opacity: 0, y: -22, scale: 1.02 }
@@ -226,15 +225,17 @@ export default function Envelope({ onOpen }: EnvelopeProps) {
         }
         transition={{ duration: reduced ? 0.2 : 0.7, ease: EASE }}
       >
+        {/* Envelope Outer Soft Sage Mint Base */}
         <div
           style={{
             position: 'absolute',
             inset: 0,
             zIndex: 1,
-            background: 'linear-gradient(155deg, #F6EFE1 0%, #EDE3D0 100%)',
-            backgroundImage: `${PAPER_GRAIN}, linear-gradient(155deg, #F6EFE1 0%, #EDE3D0 100%)`,
+            background: 'linear-gradient(155deg, #F4F9F7 0%, #E4ECE9 60%, #D6E3DF 100%)',
+            backgroundImage: `${PAPER_GRAIN}, linear-gradient(155deg, #F4F9F7 0%, #E4ECE9 60%, #D6E3DF 100%)`,
             backgroundBlendMode: 'multiply, normal',
-            borderRadius: 3,
+            borderRadius: 4,
+            border: '1px solid rgba(212,175,55,0.45)',
           }}
           aria-hidden
         />
@@ -248,10 +249,10 @@ export default function Envelope({ onOpen }: EnvelopeProps) {
             width: '88%',
             height: '86%',
             zIndex: 2,
-            background: 'linear-gradient(150deg, #FDF8EC 0%, #F7EFDD 100%)',
-            border: '1px solid rgba(168,142,100,0.35)',
+            background: 'linear-gradient(150deg, #FFFFFF 0%, #F8FCFA 100%)',
+            border: '1px solid rgba(201,162,75,0.45)',
             borderRadius: 2,
-            boxShadow: '0 10px 22px -12px rgba(90,70,50,0.45)',
+            boxShadow: '0 10px 22px -12px rgba(50,80,72,0.3)',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -269,7 +270,7 @@ export default function Envelope({ onOpen }: EnvelopeProps) {
             style={{
               position: 'absolute',
               inset: 9,
-              border: '1px solid rgba(168,142,100,0.28)',
+              border: '1px solid rgba(201,162,75,0.3)',
               borderRadius: 1,
               pointerEvents: 'none',
             }}
@@ -301,7 +302,7 @@ export default function Envelope({ onOpen }: EnvelopeProps) {
             {coupleNames}
           </p>
 
-          <div style={{ width: 52, height: 1, background: 'rgba(168,142,100,0.5)' }} />
+          <div style={{ width: 52, height: 1, background: 'rgba(201,162,75,0.5)' }} />
 
           <p
             style={{
@@ -309,7 +310,8 @@ export default function Envelope({ onOpen }: EnvelopeProps) {
               fontSize: 'clamp(10px, 2.6vw, 12px)',
               letterSpacing: '0.3em',
               textTransform: 'uppercase',
-              color: 'var(--maroon)',
+              color: 'var(--emerald)',
+              fontWeight: 600,
               margin: 0,
             }}
           >
@@ -317,29 +319,77 @@ export default function Envelope({ onOpen }: EnvelopeProps) {
           </p>
         </motion.div>
 
-        {/* Flaps */}
-        {FLAPS.map((f) => (
-          <motion.div
-            key={f.key}
-            style={{
-              position: 'absolute',
-              inset: 0,
-              zIndex: f.opens && flapsBehind ? 0 : 5,
-              clipPath: f.clip,
-              transformOrigin: f.origin,
-              backgroundImage: `${PAPER_GRAIN}, linear-gradient(155deg, #F8F1E4 0%, #EFE5D2 55%, #E7DBC5 100%)`,
-              backgroundBlendMode: 'multiply, normal',
-              filter: `brightness(${f.shade}) drop-shadow(0 1px 2px rgba(126,104,78,0.30))`,
-            }}
-            animate={{ rotateX: open && f.opens ? -180 : 0 }}
-            transition={{ duration: reduced ? 0.2 : 0.8, delay: reduced ? 0 : 0.14, ease: EASE }}
-            aria-hidden
-          >
-            <EmbossBotanicals />
-          </motion.div>
-        ))}
+        {/* Bottom Flap Pocket */}
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            zIndex: 4,
+            clipPath: `polygon(0 100%, 100% 100%, 50% ${MEET})`,
+            backgroundImage: `${PAPER_GRAIN}, linear-gradient(180deg, #EEF5F2 0%, #DCE7E3 100%)`,
+            backgroundBlendMode: 'multiply, normal',
+            filter: 'brightness(0.97) drop-shadow(0 -1px 2px rgba(60,90,82,0.15))',
+          }}
+          aria-hidden
+        >
+          <EmbossSageBotanicals />
+        </div>
 
-        {/* Wax Seal */}
+        {/* Side Flaps */}
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            zIndex: 4,
+            clipPath: `polygon(0 0, 0 100%, 50% ${MEET})`,
+            backgroundImage: `${PAPER_GRAIN}, linear-gradient(135deg, #E4ECE9 0%, #D6E3DF 100%)`,
+            backgroundBlendMode: 'multiply, normal',
+            filter: 'brightness(0.955)',
+          }}
+          aria-hidden
+        >
+          <EmbossSageBotanicals />
+        </div>
+
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            zIndex: 4,
+            clipPath: `polygon(100% 0, 100% 100%, 50% ${MEET})`,
+            backgroundImage: `${PAPER_GRAIN}, linear-gradient(225deg, #E4ECE9 0%, #D6E3DF 100%)`,
+            backgroundBlendMode: 'multiply, normal',
+            filter: 'brightness(0.955)',
+          }}
+          aria-hidden
+        >
+          <EmbossSageBotanicals />
+        </div>
+
+        {/* Top Opening V-Flap */}
+        <motion.div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            zIndex: open && flapsBehind ? 0 : 5,
+            clipPath: `polygon(0 0, 100% 0, 50% ${MEET})`,
+            transformOrigin: 'center top',
+            backgroundImage: `${PAPER_GRAIN}, linear-gradient(160deg, #F4F9F7 0%, #E0ECE8 100%)`,
+            backgroundBlendMode: 'multiply, normal',
+            filter: 'brightness(1) drop-shadow(0 2px 4px rgba(60,90,82,0.2))',
+          }}
+          animate={{ rotateX: open ? -180 : 0 }}
+          transition={{ duration: reduced ? 0.2 : 0.8, delay: reduced ? 0 : 0.14, ease: EASE }}
+          aria-hidden
+        >
+          <EmbossSageBotanicals />
+          {/* Subtle Gold Edge Trim Line */}
+          <svg viewBox="0 0 100 100" preserveAspectRatio="none" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', stroke: 'rgba(212,175,55,0.7)', strokeWidth: '0.5', fill: 'none' }}>
+            <path d="M0 0 L50 46 L100 0" />
+          </svg>
+        </motion.div>
+
+        {/* Sage & Gold Wax Seal */}
         <motion.div
           style={{
             position: 'absolute',
@@ -349,14 +399,13 @@ export default function Envelope({ onOpen }: EnvelopeProps) {
             height: 'clamp(54px, 15vw, 76px)',
             zIndex: 6,
             pointerEvents: 'none',
-            filter: 'drop-shadow(0 3px 5px rgba(70,30,30,0.35))',
           }}
           initial={{ x: '-50%', y: '-50%', opacity: 1, scale: 1 }}
           animate={{ x: '-50%', y: '-50%', opacity: open ? 0 : 1, scale: open ? 0.78 : 1 }}
           transition={{ duration: reduced ? 0.15 : 0.34, ease: 'easeOut' }}
           aria-hidden
         >
-          <WaxSeal />
+          <SageGoldWaxSeal text={monogramText} />
         </motion.div>
       </motion.div>
 
@@ -366,7 +415,7 @@ export default function Envelope({ onOpen }: EnvelopeProps) {
           fontSize: 10,
           letterSpacing: '0.45em',
           textTransform: 'uppercase',
-          color: '#8A7359',
+          color: '#4A635B',
           margin: 0,
           pointerEvents: 'none',
         }}
