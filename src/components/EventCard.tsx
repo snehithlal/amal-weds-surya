@@ -14,184 +14,6 @@ interface EventCardProps {
   calEvent: CalendarEvent
 }
 
-function CalendarPanel({ event, onClose }: { event: CalendarEvent; onClose: () => void }) {
-  const options = [
-    {
-      label: 'Google Calendar',
-      action: () => { window.open(googleCalendarUrl(event), '_blank'); onClose() },
-    },
-    {
-      label: 'Outlook',
-      action: () => { window.open(outlookCalendarUrl(event), '_blank'); onClose() },
-    },
-    {
-      label: 'Apple / iCal (.ics)',
-      action: () => { downloadICS(event); onClose() },
-    },
-  ]
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, height: 0 }}
-      animate={{ opacity: 1, height: 'auto' }}
-      exit={{ opacity: 0, height: 0 }}
-      transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-      style={{ overflow: 'hidden', marginTop: 16 }}
-    >
-      <div style={{
-        background: '#FBF7F2',
-        border: '1px solid rgba(201,169,110,0.4)',
-        borderRadius: 8,
-        overflow: 'hidden',
-        boxShadow: '0 4px 20px rgba(58,47,42,0.08)',
-      }}>
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          padding: '10px 16px 9px',
-          borderBottom: '1px solid rgba(201,169,110,0.18)',
-        }}>
-          <span style={{
-            fontFamily: 'Inter, sans-serif',
-            fontSize: 9,
-            letterSpacing: '0.3em',
-            textTransform: 'uppercase',
-            color: 'var(--ink-soft)',
-          }}>
-            Add to calendar
-          </span>
-          <button
-            onClick={onClose}
-            style={{
-              color: 'var(--ink-soft)', opacity: 0.55,
-              lineHeight: 1, padding: 2, cursor: 'pointer',
-              background: 'none', border: 'none',
-            }}
-            aria-label="Close"
-          >
-            <svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
-              <path d="M1 1l9 9M10 1L1 10"/>
-            </svg>
-          </button>
-        </div>
-
-        {options.map(({ label, action }, i) => (
-          <button
-            key={label}
-            onClick={action}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              width: '100%',
-              padding: '12px 18px',
-              fontFamily: '"Cormorant Garamond", serif',
-              fontSize: 16,
-              fontWeight: 400,
-              color: 'var(--ink)',
-              background: 'transparent',
-              border: 'none',
-              borderBottom: i < options.length - 1 ? '1px solid rgba(201,169,110,0.1)' : 'none',
-              cursor: 'pointer',
-              textAlign: 'left',
-              transition: 'background 180ms ease, color 180ms ease',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = 'rgba(201,169,110,0.1)'
-              e.currentTarget.style.color = 'var(--ink)'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'transparent'
-            }}
-          >
-            {label}
-          </button>
-        ))}
-      </div>
-    </motion.div>
-  )
-}
-
-function InfoRow({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
-  return (
-    <div style={{
-      display: 'flex',
-      alignItems: 'center',
-      gap: 12,
-      background: 'rgba(255,255,255,0.55)',
-      backdropFilter: 'blur(4px)',
-      border: '1px solid rgba(201,169,110,0.15)',
-      borderRadius: 14,
-      padding: '12px 14px',
-    }}>
-      <span style={{
-        width: 32, height: 32, borderRadius: '50%',
-        background: 'rgba(201,169,110,0.1)',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        flexShrink: 0, color: 'var(--gold)',
-      }}>
-        {icon}
-      </span>
-      <div>
-        <div style={{
-          fontFamily: 'Inter, sans-serif', fontSize: 10,
-          letterSpacing: '0.28em', textTransform: 'uppercase',
-          color: 'var(--ink-soft)', fontWeight: 600, marginBottom: 2,
-        }}>
-          {label}
-        </div>
-        <div style={{
-          fontFamily: '"Cormorant Garamond", serif',
-          fontSize: 16, fontWeight: 500, color: 'var(--ink)',
-        }}>
-          {value}
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function ActionBtn({
-  href, onClick, icon, label, active,
-}: {
-  href?: string; onClick?: () => void
-  icon: React.ReactNode; label: string; active?: boolean
-}) {
-  const circleStyle: React.CSSProperties = {
-    width: 56, height: 56, borderRadius: '50%',
-    display: 'flex', alignItems: 'center', justifyContent: 'center',
-    transition: 'all 300ms ease',
-    background: active ? 'var(--gold)' : 'white',
-    color: active ? 'white' : 'var(--gold)',
-    border: '1px solid rgba(201,169,110,0.3)',
-    boxShadow: active
-      ? '0 4px 16px rgba(201,162,75,0.4)'
-      : '0 2px 8px rgba(58,47,42,0.1)',
-  }
-  const labelStyle: React.CSSProperties = {
-    fontFamily: 'Inter, sans-serif', fontSize: 9,
-    letterSpacing: '0.22em', textTransform: 'uppercase',
-    color: 'var(--ink-soft)', fontWeight: 600, marginTop: 8,
-  }
-
-  const inner = (
-    <>
-      <div style={circleStyle}>{icon}</div>
-      <div style={labelStyle}>{label}</div>
-    </>
-  )
-
-  const wrapStyle: React.CSSProperties = {
-    display: 'flex', flexDirection: 'column', alignItems: 'center',
-    cursor: 'pointer', background: 'none', border: 'none', padding: 0,
-  }
-
-  if (href) return (
-    <a href={href} target="_blank" rel="noopener noreferrer" style={wrapStyle}>{inner}</a>
-  )
-  return <button onClick={onClick} style={wrapStyle}>{inner}</button>
-}
-
 export default function EventCard({
   title, subtitle, date, time, venue, address, mapUrl, calEvent,
 }: EventCardProps) {
@@ -199,75 +21,105 @@ export default function EventCard({
 
   return (
     <motion.div
-      className="relative card-glass max-w-md mx-auto p-8 sm:p-10 text-center"
-      initial={{ opacity: 0, y: 30, scaleY: 0.85, filter: 'blur(8px)' }}
-      whileInView={{ opacity: 1, y: 0, scaleY: 1, filter: 'blur(0px)' }}
-      viewport={{ once: true, margin: '-80px' }}
-      transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
-      style={{
-        transformOrigin: 'top center',
-        borderRadius: 6,
-        backgroundImage: `
-          radial-gradient(ellipse at top left, rgba(232,197,192,0.18) 0%, transparent 60%),
-          radial-gradient(ellipse at bottom right, rgba(168,181,160,0.12) 0%, transparent 60%),
-          linear-gradient(180deg, rgba(255,250,235,0.7) 0%, rgba(248,234,200,0.55) 100%)
-        `,
-        boxShadow: '0 12px 36px -8px rgba(110,31,43,0.18), inset 0 1px 0 rgba(255,255,255,0.6)',
-        border: '1px solid rgba(201,162,75,0.45)',
-      }}
+      className="relative bg-white/90 backdrop-blur-xl border border-champagne/45 rounded-3xl p-8 sm:p-12 text-center max-w-xl mx-auto shadow-[0_16px_50px_-10px_rgba(47,72,61,0.1)]"
+      initial={{ opacity: 0, y: 30, filter: 'blur(6px)' }}
+      whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
     >
-      <div className="absolute top-0 left-0 right-0 h-[2px]"
-        style={{ background: 'linear-gradient(90deg, transparent, rgba(168,132,47,0.6), transparent)' }}
-        aria-hidden
-      />
-      <div className="absolute inset-2 pointer-events-none rounded-[3px]"
-        style={{ border: '1px solid rgba(168,132,47,0.3)' }}
-        aria-hidden
-      />
+      {subtitle && (
+        <span className="inline-block px-4 py-1 rounded-full bg-sage-mist text-eucalyptus text-[10px] uppercase font-heading tracking-widest font-semibold mb-3">
+          {subtitle}
+        </span>
+      )}
+      <h3 className="section-heading text-3xl sm:text-4xl mb-4" style={{ color: 'var(--eucalyptus)' }}>
+        {title}
+      </h3>
+      <div className="w-16 h-px bg-gradient-to-r from-transparent via-gold to-transparent mx-auto mb-8" />
 
-      <div className="flex justify-center mb-5" aria-hidden>
-        <svg width="68" height="42" viewBox="0 0 68 42" fill="none">
-          <circle cx="25" cy="21" r="17" stroke="#A8842F" strokeWidth="1.8" opacity="0.85"/>
-          <circle cx="43" cy="21" r="17" stroke="#A8842F" strokeWidth="1.8" opacity="0.85"/>
-          <circle cx="25" cy="21" r="11" stroke="rgba(201,162,75,0.45)" strokeWidth="0.9"/>
-          <circle cx="43" cy="21" r="11" stroke="rgba(201,162,75,0.45)" strokeWidth="0.9"/>
-        </svg>
+      {/* Info Rows Grid */}
+      <div className="space-y-4 text-left mb-8">
+        <div className="flex items-center gap-4 p-4 rounded-2xl bg-pearl-soft/70 border border-champagne/25">
+          <div className="w-10 h-10 rounded-full bg-gold/15 flex items-center justify-center text-gold font-semibold shrink-0">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
+          <div>
+            <p className="text-[10px] uppercase font-heading tracking-widest text-sage font-semibold">Date</p>
+            <p className="font-display font-medium text-lg text-eucalyptus">{date}</p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-4 p-4 rounded-2xl bg-pearl-soft/70 border border-champagne/25">
+          <div className="w-10 h-10 rounded-full bg-gold/15 flex items-center justify-center text-gold font-semibold shrink-0">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div>
+            <p className="text-[10px] uppercase font-heading tracking-widest text-sage font-semibold">Time</p>
+            <p className="font-display font-medium text-lg text-eucalyptus">{time}</p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-4 p-4 rounded-2xl bg-pearl-soft/70 border border-champagne/25">
+          <div className="w-10 h-10 rounded-full bg-gold/15 flex items-center justify-center text-gold font-semibold shrink-0">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div>
+            <p className="text-[10px] uppercase font-heading tracking-widest text-sage font-semibold">Venue</p>
+            <p className="font-display font-medium text-lg text-eucalyptus">{address ? `${venue}, ${address}` : venue}</p>
+          </div>
+        </div>
       </div>
 
-      {subtitle && <p className="section-sub mb-2" style={{ color: 'var(--maroon)' }}>{subtitle}</p>}
-      <h2 className="section-heading mb-2" style={{ color: 'var(--maroon)' }}>{title}</h2>
-      <div className="flex justify-center mb-7" aria-hidden>
-        <div className="h-px w-16 bg-gradient-to-r from-transparent via-gold to-transparent" />
-      </div>
-
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 28, textAlign: 'left' }}>
-        <InfoRow label="Date" value={date}
-          icon={<svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><rect x="1" y="2" width="13" height="12" rx="1.5"/><path d="M1 6h13M5 1v2M10 1v2"/></svg>}
-        />
-        <InfoRow label="Time" value={time}
-          icon={<svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><circle cx="7.5" cy="7.5" r="6"/><path d="M7.5 4v4l2.5 2"/></svg>}
-        />
-        <InfoRow label="Venue" value={address ? `${venue}, ${address}` : venue}
-          icon={<svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><path d="M7.5 1C5.015 1 3 3.015 3 5.5c0 3.5 4.5 8.5 4.5 8.5S12 9 12 5.5C12 3.015 9.985 1 7.5 1z"/><circle cx="7.5" cy="5.5" r="1.5"/></svg>}
-        />
-      </div>
-
-      <div style={{ display: 'flex', justifyContent: 'center', gap: 32 }}>
-        <ActionBtn
-          onClick={() => setCalOpen((v) => !v)}
-          label="Add to Calendar"
-          active={calOpen}
-          icon={<svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><rect x="1.5" y="2.5" width="15" height="14" rx="2"/><path d="M1.5 7h15M6 1v3M12 1v3M9 10.5v3M7.5 12h3"/></svg>}
-        />
-        <ActionBtn
+      {/* Action Buttons */}
+      <div className="flex flex-wrap items-center justify-center gap-4">
+        <a
           href={mapUrl}
-          label="View Location"
-          icon={<svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M9 1.5C6.515 1.5 4.5 3.515 4.5 6c0 4 4.5 10.5 4.5 10.5S13.5 10 13.5 6c0-2.485-2.015-4.5-4.5-4.5z"/><circle cx="9" cy="6" r="1.8"/></svg>}
-        />
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn-gold"
+        >
+          Open Google Maps
+        </a>
+        <button
+          onClick={() => setCalOpen((v) => !v)}
+          className="px-6 py-3 border border-sage/40 text-eucalyptus font-body font-light tracking-widest text-xs uppercase rounded-full hover:bg-sage-mist transition-colors"
+        >
+          {calOpen ? 'Close Calendar Options' : 'Add to Calendar'}
+        </button>
       </div>
 
+      {/* Calendar Drawer */}
       <AnimatePresence>
-        {calOpen && <CalendarPanel event={calEvent} onClose={() => setCalOpen(false)} />}
+        {calOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+            className="overflow-hidden mt-6"
+          >
+            <div className="p-4 rounded-2xl bg-pearl-soft border border-champagne/30 space-y-2 text-left">
+              <button
+                onClick={() => { window.open(googleCalendarUrl(calEvent), '_blank'); setCalOpen(false) }}
+                className="w-full text-left p-3 rounded-xl hover:bg-white transition-colors font-display text-base text-eucalyptus"
+              >
+                Google Calendar
+              </button>
+              <button
+                onClick={() => { window.open(outlookCalendarUrl(calEvent), '_blank'); setCalOpen(false) }}
+                className="w-full text-left p-3 rounded-xl hover:bg-white transition-colors font-display text-base text-eucalyptus"
+              >
+                Outlook Calendar
+              </button>
+              <button
+                onClick={() => { downloadICS(calEvent); setCalOpen(false) }}
+                className="w-full text-left p-3 rounded-xl hover:bg-white transition-colors font-display text-base text-eucalyptus"
+              >
+                Apple Calendar / iCal (.ics)
+              </button>
+            </div>
+          </motion.div>
+        )}
       </AnimatePresence>
     </motion.div>
   )

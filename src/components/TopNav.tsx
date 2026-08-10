@@ -36,13 +36,14 @@ export default function TopNav() {
           exit={{ y: -64, opacity: 0 }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
           style={{
-            background: 'rgba(250,243,231,0.82)',
-            backdropFilter: 'blur(12px)',
-            borderBottom: '1px solid rgba(201,162,75,0.28)',
-            boxShadow: '0 2px 18px -8px rgba(110,31,43,0.25)',
+            background: 'rgba(252,250,247,0.88)',
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)',
+            borderBottom: '1px solid rgba(229,198,135,0.3)',
+            boxShadow: '0 4px 20px -8px rgba(47,72,61,0.08)',
           }}
         >
-          <div className="max-w-5xl mx-auto flex items-center justify-between px-5 py-3">
+          <div className="max-w-5xl mx-auto flex items-center justify-between px-6 py-3.5">
             <a
               href="#hero"
               className="font-script gold-foil text-2xl leading-none"
@@ -50,13 +51,13 @@ export default function TopNav() {
             >
               {monogramText}
             </a>
-            <ul className="flex items-center gap-5 sm:gap-7">
+            <ul className="flex items-center gap-6 sm:gap-8">
               {LINKS.map((l) => (
                 <li key={l.href}>
                   <a
                     href={l.href}
-                    className="font-heading uppercase text-maroon transition-colors duration-300 hover:text-gold-deep"
-                    style={{ fontSize: 11, letterSpacing: '0.18em' }}
+                    className="font-heading uppercase text-eucalyptus transition-colors duration-300 hover:text-gold-deep"
+                    style={{ fontSize: 11, letterSpacing: '0.2em' }}
                   >
                     {l.label}
                   </a>
