@@ -2,13 +2,11 @@ import { resolve } from 'node:path'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-const base = process.env.GITHUB_REPOSITORY
-  ? `/${process.env.GITHUB_REPOSITORY.split('/')[1]}/`
-  : './'
-
+// Relative base path ('./') ensures universal compatibility for GitHub Actions,
+// custom domains (amalgithub.in), and default GitHub Pages URLs.
 export default defineConfig({
   plugins: [react()],
-  base,
+  base: './',
   build: {
     rollupOptions: {
       input: {
